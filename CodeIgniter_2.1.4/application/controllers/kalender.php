@@ -93,11 +93,11 @@ class Kalender extends CI_Controller {
                 //voor elke afspraak in de array de bijhorende gegevens opvragen
                 foreach($arrAfspraken as $afspraakID){
                     // eigenschappen-knop toevoegen
-                    $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";             
+                    $data['afspraak'] = $data['afspraak']."<li><a href='".'/index.php'.$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";             
                 }
             }else{
                 //eigenschappen-knop toevoegen
-                $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";
+                $data['afspraak'] = $data['afspraak']."<li><a href='".'/index.php'.$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";
             }
         }else{
             //afspraken: bevat alle info over de afspraak
@@ -122,7 +122,7 @@ class Kalender extends CI_Controller {
                  $inhoud[$day] = $inhoud[$day].','.$afspraakID;
             }else{
                  //array_push($inhoud, $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID);
-                 $inhoud[$day] = $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID;
+                 $inhoud[$day] = '/index.php'.$_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID;
             }
         }
         
