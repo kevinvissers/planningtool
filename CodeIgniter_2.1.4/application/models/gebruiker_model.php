@@ -2,7 +2,6 @@
 
 /**
  * Gebruikers_model
- * bart heeft dit aangepast
  *
  * @package             planningtool
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
