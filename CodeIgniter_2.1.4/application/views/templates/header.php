@@ -37,26 +37,24 @@
         /* highlight today */
         .highlight{font-size:larger;}  
         
+        /* foundation icon size */
+        .size-12 { font-size: 12px; }
+        .size-14 { font-size: 14px; }
+        .size-16 { font-size: 16px; }
+        .size-18 { font-size: 18px; }
+        .size-21 { font-size: 21px; }
+        .size-24 { font-size: 24px; }
+        .size-36 { font-size: 36px; }
+        .size-48 { font-size: 48px; }
+        .size-60 { font-size: 60px; }
+        .size-72 { font-size: 72px; }
         
-      .size-12 { font-size: 12px; }
-      
-      .size-14 { font-size: 14px; }
-      
-      .size-16 { font-size: 16px; }
-      
-      .size-18 { font-size: 18px; }
-      
-      .size-21 { font-size: 21px; }
-      
-      .size-24 { font-size: 24px; }
-      
-      .size-36 { font-size: 36px; }
-      
-      .size-48 { font-size: 48px; }
-      
-      .size-60 { font-size: 60px; }
-      
-      .size-72 { font-size: 72px; }
+        /* maandkalender */
+        table{ 
+            width:100%; 
+            height: 100%; 
+        }
+        
         /* weekKalender */
         /*.kalender_week_inhoud{position: absolute;background-color: white; margin-top: 50px; min-width: 500px; margin-left:20%; margin-right:20%; }
         .week_hoofding{width: 200px;}

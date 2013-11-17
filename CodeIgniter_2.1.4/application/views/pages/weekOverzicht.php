@@ -1,15 +1,37 @@
 <!-- Main Page Content and Sidebar -->
-<div class="row">
 
-<!-- Main Blog Content -->
-<div class="large-9 columns" role="content">
-    <h3>Kalender</h3>
-    <div class="kalender_week_inhoud" align="center"><?php echo $kalender; ?></div>
-</div>
-<!-- End Main Content -->
-</div>
-<!-- End Main Content and Sidebar -->
+	<div class="row">
 
+            <!-- Main Blog Content -->
+            <div class="large-8 columns" role="content">
+                <h3>Kalender</h3>
+                <div align="center"><?php echo $kalender; ?></div> 
+            </div>
+            <!-- End Main Content -->
+
+            <!-- Sidebar -->
+            <aside class="large-4 columns">
+              <div class="panel">
+                <h5>Afspraken</h5>
+                <ul class="side-nav">
+                    <?php echo $afspraak; ?>
+                </ul>
+                <!--<a href="#">Read More &rarr;</a>-->
+              </div>
+            </aside>
+            <aside class="large-4 columns">
+              <div class="panel">
+                <h5>Beheren</h5>
+                <ul class="side-nav">
+                    <li><a href="<?php echo $_SERVER['PHP_SELF'] ?>?new" class="fi-plus size-14" >&nbsp;&nbsp;Nieuwe Afspraak</a></li>
+                </ul>
+                <!--<a href="#">Read More &rarr;</a>-->
+              </div>
+            </aside>
+            <!-- End Sidebar -->
+	</div>
+
+	<!-- End Main Content and Sidebar -->
 
 
 

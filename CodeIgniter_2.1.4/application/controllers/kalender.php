@@ -1,16 +1,22 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of kalender
+ * Kalender extends CI_Controller 
+ * 
+ * Deze controller genereerd de maand -en weekkalender
+ * 
+ * PHP version 5
  *
- * @author Kevin
+ *
+ * @package    PlanningTool
+ * @author     Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @copyright  2013
+ * @license    
+ * 
  */
 class Kalender extends CI_Controller {
+/**
+ * @access	public
+ */ 
     public function maandOverzicht($jaar=null, $maand=null)
     {
         if ( ! file_exists('application/views/pages/maandOverzicht.php'))
@@ -18,9 +24,8 @@ class Kalender extends CI_Controller {
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        //variabele die aanduid of gebruiker is aangemeld of niet
-        $blnLogin = false;
-        $blnLoginActive = false;
+        //alle view variabelen aanmaken
+        $data = $this->_init();
         
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
@@ -30,7 +35,6 @@ class Kalender extends CI_Controller {
         if ($maand==null) {
             $maand = date('m');
         }
-        //kijken of gebruiker zich aanmeld
                 
         //configuratie voor hoofdmenu 
         $menuConfig['active'] = true;
@@ -56,11 +60,6 @@ class Kalender extends CI_Controller {
         //library voor het tonen van de maand-kalender
         $this->load->library('calendar', $conf);
         
-        if(isset($_POST['aanmelden'])){
-            if(($_POST['gebruiker'] == 'admin')&&($_POST['wachtw']== 'eloict')){
-                $blnLogin = true;
-            }
-        }
         if(((isset($_GET['dag']))&&(isset($_GET['id']))&&(isset($_GET['modal'])))){
             //gegevens ophalen voor eigenschappenDialog (inhoud, title, id)
             $eigenschappenDialog = $this->Afspraken_model->EigenschappenTonen($_GET['modal']);
@@ -81,27 +80,10 @@ class Kalender extends CI_Controller {
         }
         //kijken of er een dag wordt geselecteerd
         if((isset($_GET['dag']))&&(isset($_GET['id']))){
-            //dag opslaan
             $dag = $_GET['dag'];
-            //afspraken opslaan in array
-            $arrAfspraken = explode(',', $_GET['id']);
-            
-            $data['afspraak'] = '';
-            //kijken of er 1 of meerdere afspraken zijn (1 afspraak -> array = null)
-            //arrAfspraken bevat de afspraak id's
-            if($arrAfspraken != null){
-                //voor elke afspraak in de array de bijhorende gegevens opvragen
-                foreach($arrAfspraken as $afspraakID){
-                    // eigenschappen-knop toevoegen
-                    $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";             
-                }
-            }else{
-                //eigenschappen-knop toevoegen
-                $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$_GET['dag']."&id=".$_GET['id']."&modal=".$afspraakID."'>Eigenschappen</a></li>";
-            }
-        }else{
-            //afspraken: bevat alle info over de afspraak
-            $data['afspraak'] = '<p align="center">Geen afspraak geselecteerd</p>';
+            $id = $_GET['id'];
+
+            $data['afspraak'] = $this->Afspraken_model->toonInhoud($dag, $id);
         }
         
         //inhoud bevat de afspraken voor de huidige maand, deze worden opgehaald met ToonAfspraken
@@ -148,15 +130,12 @@ class Kalender extends CI_Controller {
         $this->load->view('templates/header', $data);
         //inhoud laden
 	$this->load->view('pages/maandOverzicht', $data);
-        //aanmeldpagina laden
-        if((!$blnLogin)&&($blnLoginActive)){
-            $this->load->view('templates/login');
-        }  
         //dialog laden, als dit nodig is
         if(isset($_GET['modal'])){
             $this->load->view('templates/emptyModal');
         }
         //footer laden
+        $data['device'] = $this->_footer();
 	$this->load->view('templates/footer', $data);
     }
     public function weekOverzicht($jaar=null, $maand=null, $dag=null)
@@ -166,10 +145,7 @@ class Kalender extends CI_Controller {
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        //variabele die aanduid of gebruiker is aangemeld of niet
-        $blnLogin = false;
-        $blnLoginActive = false;
-        
+        $data = $this->_init();
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
             $jaar = date('Y');
@@ -181,13 +157,6 @@ class Kalender extends CI_Controller {
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige dag
         if($dag == null){
             $dag = date('d');
-        }
-        
-        //kijken of gebruiker zich aanmeld
-        if(isset($_POST['aanmelden'])){
-            if(($_POST['gebruiker'] == 'admin')&&($_POST['wachtw']== 'eloict')){
-                $blnLogin = true;
-            }
         }
         
         //configuratie voor hoofdmenu 
@@ -237,13 +206,66 @@ class Kalender extends CI_Controller {
         //header laden
         $this->load->view('templates/header', $data);
         //inhoud laden
-	$this->load->view('pages/weekOverzicht', $data);
-        //aanmeldpagina laden
-        if((!$blnLogin)&&($blnLoginActive)){
-            $this->load->view('templates/login');
-        }       
-        //footer laden
+	$this->load->view('pages/weekOverzicht', $data);      
+        $data['device'] = $this->_footer();
 	$this->load->view('templates/footer', $data);
+    }
+    public function testje(){
+        $this->load->library('user_agent');
+
+        if ($this->agent->is_browser())
+        {
+            $agent = $this->agent->browser().' '.$this->agent->version();
+        }
+        elseif ($this->agent->is_robot())
+        {
+            $agent = $this->agent->robot();
+        }
+        elseif ($this->agent->is_mobile())
+        {
+            $agent = $this->agent->mobile();
+        }
+        else
+        {
+            $agent = 'Unidentified User Agent';
+        }
+        
+        echo $agent;
+        echo "<br />";
+        echo $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.) 
+        echo $this->input->ip_address();
+    }
+/**
+ * @access	private
+ */     
+    private function _footer(){
+        $this->load->library('user_agent');
+        $strUser = (getenv("username") == null ? $this->input->ip_address() : getenv("username"));
+        if ($this->agent->is_browser()){
+            //$agent = $this->agent->browser().' '.$this->agent->version();
+            $strFooter = '<i class="fi-monitor size-12">&nbsp;&nbsp;'.$this->agent->browser().' - '.$strUser.'</i>';
+        }elseif ($this->agent->is_mobile()){
+            //$agent = $this->agent->mobile();
+            $strFooter = '<i class="fi-mobile size-12">&nbsp;&nbsp;'.$this->agent->mobile().'</i>';
+        }else{
+            $strFooter = '';
+        }
+        return $strFooter;
+    }
+    private function _init(){
+        $arrData = array(
+            "modalId" => '',
+            "modalTitle" => '',
+            "inhoudModal" => '',
+            "script" => '',
+            "afspraak" => '<li class="size-14">geen afspraak geselecteerd</li>',
+            "title" => 'Titel',
+            "style" => '',
+            "menu" => '',
+            "kalender" => '',
+            "device" => ''   
+        );
+        return $arrData;
     }
 }
 

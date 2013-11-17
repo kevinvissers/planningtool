@@ -39,7 +39,7 @@
 */
 
 //$route['default_controller'] = "welcome";
-$route['default_controller'] = 'informatief';
+$route['default_controller'] = 'kalender/maandOverzicht';
 //$route['(:any)'] = 'pages/view/$1';
 //$route['404_override'] = '';
 

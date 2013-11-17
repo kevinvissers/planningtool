@@ -1,14 +1,17 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
-*   test dit is hier by gevult met git
- *  /
 /**
- * Description of aanmelden
+ * Aanmelden extends CI_Controller 
+ * 
+ * Deze controller genereerd de aanmeld pagina
+ * 
+ * PHP version 5
  *
- * @author Kevin
+ *
+ * @package    PlanningTool
+ * @author     Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @copyright  2013
+ * @license    
+ * 
  */
 class Aanmelden extends CI_Controller {
      public function login(){
@@ -23,8 +26,7 @@ class Aanmelden extends CI_Controller {
                 redirect('/kalender/maandOverzicht');
             }           
         }
-         
-        //put your code here
+
         //$data bevat de inhoud van de webpagina
         //title: titel van de webpagina
         $data['title'] = 'maand overzicht';

@@ -116,12 +116,12 @@ class Afspraken_model extends CI_Model{
      * @return          array alle info over geselecteerde afspraak
      *
      */
-    public function Tonen($intID){
+    private function Tonen($intID){
         //return array
         $this->load->database(); 
         try{
-            //$resultaat = $this->db->get_where('afspraken', array('ID' => $intID));
-            $query = $this->db->query('SELECT * FROM afspraken WHERE ID='.$intID);
+            $query = $this->db->query('SELECT * FROM afspraken WHERE ID='.$intID.' ORDER BY startTijd');
+
             $resultaat = $query->result();
             return $resultaat;
         }catch(PDOException $exc){
@@ -132,41 +132,11 @@ class Afspraken_model extends CI_Model{
     public function EigenschappenTonen($intID){
         
         try{
-            $arrAfspraakEigenschappen = $this->Tonen($intID);
-            foreach ($arrAfspraakEigenschappen as $row) {
-                $datum = $row->datum;
-                $klantID = $row->klantID;
-                $startTijd = $row->startTijd;
-                $eindTijd = $row->eindTijd;
-                $omschrijving = $row->omschrijving;
-                $materiaalID = $row->materiaalID;
-                $actief = $row->actief;
-                $gebruikersID = $row->gebruikersID;
-            }
-            
-            $timestamp = strtotime($row->startTijd);
-            $startTijd = date("G:i", $timestamp);
-            $timestamp = strtotime($row->eindTijd);
-            $eindTijd = date("G:i", $timestamp);
-            
-            $arrKlantEigenschappen = $this->db->query('SELECT * FROM klanten WHERE klantID='.$klantID);
-
-            foreach ($arrKlantEigenschappen->result() as $row)
-            {
-                $voornaam = $row->voornaam;
-                $achternaam = $row->achternaam;
-                $straat = $row->straat;
-                $huisnummer = $row->huisnummer;
-                $postcode = $row->postcode;
-                $gemeente = $row->gemeente;
-                $telefoon = $row->telefoon;
-                $gsm = $row->gsm;
-                $opmerking = $row->opmerking;
-            }
+            $arrGegevens = $this->allegegevens($intID);
 
             $arrResultaat = array();
             $arrResultaat['modalId'] = 'afspraakEigenschappenDialog';
-            $arrResultaat['modalTitle'] = $datum;
+            $arrResultaat['modalTitle'] = $arrGegevens['datum'];
             $arrResultaat['inhoudModal'] = '<form method="post">
             <table>
                 <tr>
@@ -176,7 +146,7 @@ class Afspraken_model extends CI_Model{
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$startTijd.' - '.$eindTijd.'</td>
+                    <td>'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -186,23 +156,23 @@ class Afspraken_model extends CI_Model{
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$voornaam.'</td>
-                    <td>'.$achternaam.'</td>
+                    <td>'.$arrGegevens['voornaam'].'</td>
+                    <td>'.$arrGegevens['achternaam'].'</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$straat.'</td>
-                    <td>'.$huisnummer.'</td>
+                    <td>'.$arrGegevens['straat'].'</td>
+                    <td>'.$arrGegevens['huisnummer'].'</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$postcode.'</td>
-                    <td>'.$gemeente.'</td>
+                    <td>'.$arrGegevens['postcode'].'</td>
+                    <td>'.$arrGegevens['gemeente'].'</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$telefoon.'</td>
-                    <td>'.$gsm.'</td>
+                    <td>'.$arrGegevens['telefoon'].'</td>
+                    <td>'.$arrGegevens['gsm'].'</td>
                 </tr>
                 <tr>
                     <td>Omschrijving:</td>
@@ -211,7 +181,7 @@ class Afspraken_model extends CI_Model{
                 </tr>
                 <tr>
                     <td></td>
-                    <td>'.$omschrijving.'</td>
+                    <td>'.$arrGegevens['omschrijving'].'</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -284,6 +254,55 @@ class Afspraken_model extends CI_Model{
             </tr>
             </table>
             </form>';
+    }
+    public function toonInhoud($dag, $id){
+        $arrAfspraken = explode(',', $id);
+        $data['afspraak'] = '';
+        if($arrAfspraken != null){
+            foreach($arrAfspraken as $afspraakID){
+                $arrGegevens = $this->allegegevens($afspraakID);
+                $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$dag."&id=".$id."&modal=".$afspraakID."'>".$arrGegevens['startTijd'].": ".$arrGegevens['voornaam']." ".$arrGegevens['achternaam']."</a></li>";             
+            }
+        }else{
+            $arrGegevens = $this->allegegevens($afspraakID);
+            $data['afspraak'] = $data['afspraak']."<li><a href='".$_SERVER['PHP_SELF']."?dag=".$dag."&id=".$id."&modal=".$afspraakID."'>".$arrGegevens['startTijd'].": ".$arrGegevens['voornaam']." ".$arrGegevens['achternaam']."</a></li>";
+        }
+        return $data['afspraak'];
+    }
+    private function allegegevens($intID){
+        $arrAfspraakEigenschappen = $this->Tonen($intID);
+        $gegevens = array();
+        foreach ($arrAfspraakEigenschappen as $row) {
+            $gegevens['datum'] = $row->datum;
+            $gegevens['klantID'] = $row->klantID;
+            $gegevens['startTijd'] = $row->startTijd;
+            $gegevens['eindTijd'] = $row->eindTijd;
+            $gegevens['omschrijving'] = $row->omschrijving;
+            $gegevens['materiaalID'] = $row->materiaalID;
+            $gegevens['actief'] = $row->actief;
+            $gegevens['gebruikersID'] = $row->gebruikersID;
+        }
+
+        $timestamp = strtotime($row->startTijd);
+        $gegevens['startTijd'] = date("G:i", $timestamp);
+        $timestamp = strtotime($row->eindTijd);
+        $gegevens['eindTijd'] = date("G:i", $timestamp);
+
+        $arrKlantEigenschappen = $this->db->query('SELECT * FROM klanten WHERE klantID='.$gegevens['klantID']);
+
+        foreach ($arrKlantEigenschappen->result() as $row)
+        {
+            $gegevens['voornaam'] = $row->voornaam;
+            $gegevens['achternaam'] = $row->achternaam;
+            $gegevens['straat'] = $row->straat;
+            $gegevens['huisnummer'] = $row->huisnummer;
+            $gegevens['postcode'] = $row->postcode;
+            $gegevens['gemeente'] = $row->gemeente;
+            $gegevens['telefoon'] = $row->telefoon;
+            $gegevens['gsm'] = $row->gsm;
+            $gegevens['opmerking'] = $row->opmerking;
+        }
+        return $gegevens;
     }
             
 }
