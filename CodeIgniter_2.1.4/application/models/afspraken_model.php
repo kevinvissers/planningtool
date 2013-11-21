@@ -225,7 +225,7 @@ class Afspraken_model extends CI_Model{
             <td></td>
             </tr>
             <tr>
-            <td><input type="text" name="datum" /></td>
+            <td><input type="text" id="datepicker" name="datum" /></td>
             </tr>
             <tr>
             <td>start tijd</td>
@@ -254,6 +254,7 @@ class Afspraken_model extends CI_Model{
             </tr>
             </table>
             </form>';
+        return $arrResultaat;
     }
     public function toonInhoud($dag, $id){
         $arrAfspraken = explode(',', $id);

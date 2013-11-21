@@ -23,7 +23,7 @@
               <div class="panel">
                 <h5>Beheren</h5>
                 <ul class="side-nav">
-                    <li><a href="<?php echo $_SERVER['PHP_SELF'] ?>?new" class="fi-plus size-14" >&nbsp;&nbsp;Nieuwe Afspraak</a></li>
+                    <li><a href="<?php echo base_url(); ?>index.php/afspraken/toevoegen" class="fi-plus size-14" >&nbsp;&nbsp;Nieuwe Afspraak</a></li>
                 </ul>
                 <!--<a href="#">Read More &rarr;</a>-->
               </div>

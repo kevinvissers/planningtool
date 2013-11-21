@@ -79,7 +79,10 @@
                     width: 'auto'
                 });
             });
-            <?php echo $script ?>
+         $(function() {
+            $( "#datepicker" ).datepicker();
+            });    
+        <?php echo $script ?>
     </script>
 </head>
 <body>
