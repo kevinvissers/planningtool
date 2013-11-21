@@ -61,6 +61,7 @@ class Menu_Library {
                                 <li><label>Kalenders</label></li>
                                 <li><a href="'.base_url().'index.php/kalender/maandOverzicht">Maandoverzicht</a></li>
                                 <li><a href="'.base_url().'index.php/kalender/weekOverzicht">Weekoverzicht</a></li>
+                                <li><a href="'.base_url().'index.php/kalender/dagOverzicht">dagoverzicht</a></li>
                               </ul>
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
