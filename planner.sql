@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2013 at 10:29 AM
+-- Generation Time: Nov 21, 2013 at 10:54 AM
 -- Server version: 5.5.31
 -- PHP Version: 5.4.4-14+deb7u5
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `planner`
 --
-CREATE DATABASE `plannerToolDatabase` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `planner` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `planner`;
 
 -- --------------------------------------------------------
@@ -45,8 +45,9 @@ CREATE TABLE IF NOT EXISTS `aanmeldgegevens` (
   `gebruikersID` int(11) NOT NULL AUTO_INCREMENT,
   `gebruikersNaam` varchar(50) NOT NULL,
   `wachtwoord` varchar(30) NOT NULL,
-  `gebruikersfunctie` int(11) NOT NULL,
-  PRIMARY KEY (`gebruikersID`)
+  `idfunctie` int(11) NOT NULL,
+  PRIMARY KEY (`gebruikersID`),
+  KEY `idfunctie` (`idfunctie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -63,11 +64,41 @@ CREATE TABLE IF NOT EXISTS `afspraken` (
   `eindTijd` datetime DEFAULT NULL,
   `omschrijving` varchar(70) DEFAULT NULL,
   `actief` tinyint(1) NOT NULL,
+  `uitgevoerd` tinyint(1) NOT NULL DEFAULT '0',
   `gebruikersID` int(11) NOT NULL,
+  `iduitvoerder` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `klantID` (`klantID`),
   KEY `gebruikersID` (`gebruikersID`),
-  KEY `eindTijd` (`eindTijd`)
+  KEY `eindTijd` (`eindTijd`),
+  KEY `iduitvoerder` (`iduitvoerder`),
+  KEY `iduitvoerder_2` (`iduitvoerder`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `functiegebruiker`
+--
+
+CREATE TABLE IF NOT EXISTS `functiegebruiker` (
+  `idfunctie` int(11) NOT NULL AUTO_INCREMENT,
+  `functienaam` varchar(25) NOT NULL,
+  `userrole` int(11) NOT NULL,
+  PRIMARY KEY (`idfunctie`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gemeente`
+--
+
+CREATE TABLE IF NOT EXISTS `gemeente` (
+  `Idgemeente` int(11) NOT NULL AUTO_INCREMENT,
+  `gemeente` varchar(25) NOT NULL,
+  `postcode` varchar(8) NOT NULL,
+  PRIMARY KEY (`Idgemeente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -82,14 +113,33 @@ CREATE TABLE IF NOT EXISTS `klanten` (
   `achternaam` varchar(25) NOT NULL,
   `straat` varchar(50) NOT NULL,
   `huisnummer` varchar(20) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
-  `gemeente` varchar(50) NOT NULL,
+  `idgemeente` int(11) NOT NULL,
   `telefoon` varchar(30) DEFAULT NULL,
   `gsm` varchar(30) DEFAULT NULL,
   `email` varchar(70) DEFAULT NULL,
   `opmerking` mediumtext,
-  PRIMARY KEY (`klantID`)
+  PRIMARY KEY (`klantID`),
+  KEY `idgemeente` (`idgemeente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materiaallijst`
+--
+
+CREATE TABLE IF NOT EXISTS `materiaallijst` (
+  `idMateriaalLijst` int(11) NOT NULL AUTO_INCREMENT,
+  `afspraakid` int(11) DEFAULT NULL,
+  `materiaalid` int(11) DEFAULT NULL,
+  `aantal` int(11) DEFAULT NULL,
+  `eenheid` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`idMateriaalLijst`),
+  KEY `afspraakid` (`afspraakid`,`materiaalid`),
+  KEY `afspraakid_2` (`afspraakid`,`materiaalid`),
+  KEY `materiaalid` (`materiaalid`),
+  KEY `materiaalid_2` (`materiaalid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -99,14 +149,8 @@ CREATE TABLE IF NOT EXISTS `klanten` (
 
 CREATE TABLE IF NOT EXISTS `materialen` (
   `materiaalID` int(11) NOT NULL AUTO_INCREMENT,
-  `afspraakId` int(11) NOT NULL,
   `materiaalNaam` varchar(70) NOT NULL,
-  `aantal` double DEFAULT NULL,
-  `eenheid` varchar(10) DEFAULT NULL,
-  `gebruikerID` int(11) NOT NULL,
-  PRIMARY KEY (`materiaalID`),
-  KEY `gebruikerID` (`gebruikerID`),
-  KEY `afspraakId` (`afspraakId`)
+  PRIMARY KEY (`materiaalID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -114,18 +158,31 @@ CREATE TABLE IF NOT EXISTS `materialen` (
 --
 
 --
+-- Constraints for table `aanmeldgegevens`
+--
+ALTER TABLE `aanmeldgegevens`
+  ADD CONSTRAINT `aanmeldgegevens_ibfk_2` FOREIGN KEY (`idfunctie`) REFERENCES `functiegebruiker` (`idfunctie`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `afspraken`
 --
 ALTER TABLE `afspraken`
   ADD CONSTRAINT `afspraken_ibfk_2` FOREIGN KEY (`gebruikersID`) REFERENCES `aanmeldgegevens` (`gebruikersID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `afspraken_ibfk_3` FOREIGN KEY (`klantID`) REFERENCES `klanten` (`klantID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `afspraken_ibfk_3` FOREIGN KEY (`klantID`) REFERENCES `klanten` (`klantID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `afspraken_ibfk_4` FOREIGN KEY (`iduitvoerder`) REFERENCES `aanmeldgegevens` (`gebruikersID`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `materialen`
+-- Constraints for table `klanten`
 --
-ALTER TABLE `materialen`
-  ADD CONSTRAINT `materialen_ibfk_1` FOREIGN KEY (`gebruikerID`) REFERENCES `aanmeldgegevens` (`gebruikersID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `materialen_ibfk_2` FOREIGN KEY (`afspraakId`) REFERENCES `afspraken` (`id`) ON UPDATE CASCADE;
+ALTER TABLE `klanten`
+  ADD CONSTRAINT `klanten_ibfk_2` FOREIGN KEY (`idgemeente`) REFERENCES `gemeente` (`Idgemeente`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `materiaallijst`
+--
+ALTER TABLE `materiaallijst`
+  ADD CONSTRAINT `materiaallijst_ibfk_3` FOREIGN KEY (`materiaalid`) REFERENCES `materialen` (`materiaalID`),
+  ADD CONSTRAINT `materiaallijst_ibfk_1` FOREIGN KEY (`afspraakid`) REFERENCES `afspraken` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
