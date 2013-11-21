@@ -3,6 +3,12 @@
 class Afspraken extends CI_Controller {
 /**
  * @access	public
+ * @package             planningtool
+ * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author              Bart Bollen <bart.bollen@student.khlim.be>
+ * @version		1.0
+ * @date		01/11/2013
+ * @copyright (c)       2013, KHLIM-ict
  */ 
     public function toevoegen(){
         if ( ! file_exists('application/views/pages/maandOverzicht.php'))
@@ -13,6 +19,13 @@ class Afspraken extends CI_Controller {
         
         $data = $this->_init();
         
+        if(isset($_POST['nieuweAfspraakSubmit']))
+        {
+            $arrNieuweAfspraak = array(
+                'klantID' => $_POST['klantID']                
+            );
+        }
+        
         //configuratie voor hoofdmenu 
         $menuConfig['active'] = true;
         
@@ -22,8 +35,10 @@ class Afspraken extends CI_Controller {
         $this->load->helper('url');
         //afspraken model
         $this->load->model('Afspraken_model');
+        $this->load->model('Klanten_model');
         
-        $data['kalender'] = $this->Afspraken_model->ToevoegenFormulierTonen();
+        $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen();
+        $data['klantenTabel'] = $this->Klanten_model->KlantenTabelTonen();
         
         //title: titel van de webpagina
         $data['title'] = 'afspraak toevoegen';
@@ -42,11 +57,7 @@ class Afspraken extends CI_Controller {
         //header laden
         $this->load->view('templates/header', $data);
         //inhoud laden
-	$this->load->view('pages/maandOverzicht', $data);
-        //dialog laden, als dit nodig is
-        if(isset($_GET['modal'])){
-            $this->load->view('templates/emptyModal');
-        }
+	$this->load->view('pages/afspraakFormulier', $data);
         //footer laden
         $data['device'] = $this->_footer();
 	$this->load->view('templates/footer', $data);
@@ -63,7 +74,8 @@ class Afspraken extends CI_Controller {
             "style" => '',
             "menu" => '',
             "kalender" => '',
-            "device" => ''   
+            "device" => '',
+            "afspraakFormulier" => ''
         );
         return $arrData;
     }

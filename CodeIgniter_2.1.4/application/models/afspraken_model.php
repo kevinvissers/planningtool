@@ -5,6 +5,7 @@
  *
  * @package             planningtool
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author              Bart Bollen <bart.bollen@student.khlim.be>
  * @version		1.0
  * @date		01/11/2013
  * @copyright (c)       2013, KHLIM-ict
@@ -24,7 +25,7 @@ class Afspraken_model extends CI_Model{
         parent::__construct();
     }
     /**
-     * @author 		Kevin Vissers
+     * @author 		Kevin Vissers, Bart Bollen
      * @access 		public
      * @param           date $dateDatum datum
      * @param           time $dateTimeStartTijd starttijd
@@ -210,49 +211,76 @@ class Afspraken_model extends CI_Model{
         
     }
     public function ToevoegenFormulierTonen() {
-        $arrResultaat = '<form method="post">
-            <table>
-            <tr>
-            <td>Klantnaam</td>
-            <td></td>
-            </tr>
-            <tr>
-            <td><input type="text" name="klantnaam" /></td>
-            <td><button name="klantToevoegen">Nieuw...</button></td>
-            </tr>
-            <tr>
-            <td>Datum</td>
-            <td></td>
-            </tr>
-            <tr>
-            <td><input type="text" id="datepicker" name="datum" /></td>
-            </tr>
-            <tr>
-            <td>start tijd</td>
-            <td>eind tijd</td>
-            </tr>
-            <tr>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            </tr>
-            <tr>
-            <td>Omschrijving</td>
-            </tr>
-            <tr>
-            <td colspan="2">
-            <textarea rows="4" cols="50"></textarea>
-            </td>
-            </tr>
-            <tr>
-            <td>Afpraak actief</td>
-            <td><input type="checkbox" name="actief" value="actief" /></td>
-            </tr>
-            <tr>
-            <td><input type="submit" value="Toevoegen" name="toevoegen" /></td>
-            <td><input type="submit" value="Materiaallijst toevoegen" name="matlijsttoevoegen" /></td>
-            <td></td>
-            </tr>
-            </table>
+        $arrResultaat = '<form method="post" name="frmAfspraakToevoegen">
+            <fieldset>
+                <legend>Afspraak Toevoegen</legend>
+                
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="txtKlantnaam">Klantnaam</label>
+                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam">
+                    <input type="hidden" name="klantID" id="hiddenKlantID">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Datum</label>
+                    <input type="text" id="datepicker" name="datum" placeholder="Datum">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-6 columns">
+                    <label>Starttijd</label>
+                    <input type="text" placeholder="hh:mm">
+                </div>
+                <div class="large-6 columns">
+                    <label>Eindtijd</label>
+                    <input type="text" placeholder="hh:mm">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Textarea Label</label>
+                    <textarea placeholder="Beschrijving van de afspraak"></textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-10 columns">
+                    <label>Afspraak actief :</label>
+                </div>
+                <div class="large-2 columns">
+                    <div class="small-12 switch tiny">
+                        <input id="nee" name="switch-a" type="radio">
+                        <label for="a" onclick=""> Nee</label>
+
+                        <input id="ja" name="switch-a" type="radio" checked>
+                        <label for="a1" onclick="">Ja </label>
+
+                        <span></span>
+                      </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-12 columns">
+                    <hr>
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="large-6 columns">
+                    <button type="submit" class="small button" name="nieuweAfspraakSubmit">Opslaan</button>
+                </div>
+                <div class="large-6 columns" align="right">
+                    <a href="#" class="small button">Materiaal toevoegen...</a>
+                </div>
+            </div>
+            
+            </fieldset>
             </form>';
         return $arrResultaat;
     }
