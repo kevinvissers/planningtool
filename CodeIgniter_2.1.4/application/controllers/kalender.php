@@ -24,8 +24,16 @@ class Kalender extends CI_Controller {
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        //alle view variabelen aanmaken
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
+        
         $data = $this->_init();
+        $menuConfig = array(
+            'currentController' => 'kalender',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => 3
+        );
         
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
@@ -35,14 +43,9 @@ class Kalender extends CI_Controller {
         if ($maand==null) {
             $maand = date('m');
         }
-                
-        //configuratie voor hoofdmenu 
-        $menuConfig['active'] = true;
-        
+
         //library voor het tonen van hoofdmenu
         $this->load->library('Menu_Library', $menuConfig);
-        //url helper -> voor de "base_url()" functie
-        $this->load->helper('url');
         //kalender model -> houdt de template bij
         $this->load->model('Kalender_Model');
         //afspraken model
@@ -53,7 +56,7 @@ class Kalender extends CI_Controller {
             'start_day' => 'Monday',
             'show_next_prev' => true,
             'day_type' => 'abr',
-            'next_prev_url'   => base_url().'index.php/kalender/maandOverzicht',
+            'next_prev_url'   => site_url().'/kalender/maandOverzicht',
             'template' => $this->Kalender_Model->Template()
         );
         
@@ -112,10 +115,6 @@ class Kalender extends CI_Controller {
         //$data bevat de inhoud van de webpagina
         //title: titel van de webpagina
         $data['title'] = 'maand overzicht';
-        //style: css opmaak
-        $data['style'] = '.no-close .ui-dialog-titlebar-close {
-                display: none;
-            }';
         //script: javascript/jquery
         if(!isset($data['script']))
         {
@@ -125,18 +124,21 @@ class Kalender extends CI_Controller {
         $data['menu'] = $this->menu_library->ToonMenu();
         //kalender: bevat de kalender
         $data['kalender'] = $this->calendar->generate($jaar,$maand, $inhoud);
-        
-        //header laden
-        $this->load->view('templates/header', $data);
-        //inhoud laden
-	$this->load->view('pages/maandOverzicht', $data);
-        //dialog laden, als dit nodig is
-        if(isset($_GET['modal'])){
-            $this->load->view('templates/emptyModal');
-        }
-        //footer laden
-        $data['device'] = $this->_footer();
-	$this->load->view('templates/footer', $data);
+        if($blnPermission){
+            //header laden
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/maandOverzicht', $data);
+            //dialog laden, als dit nodig is
+            if(isset($_GET['modal'])){
+                $this->load->view('templates/emptyModal');
+            }
+            //footer laden
+            $data['device'] = $this->_footer();
+            $this->load->view('templates/footer', $data);
+        }else{
+            //redirect('login', 'refresh');
+            header('Location: '.site_url().'/login');
+        }     
     }
     public function weekOverzicht($jaar=null, $maand=null, $dag=null)
     {
@@ -145,7 +147,16 @@ class Kalender extends CI_Controller {
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
+        
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
         $data = $this->_init();
+        $menuConfig = array(
+            'currentController' => 'kalender',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => 3
+        );
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
             $jaar = date('Y');
@@ -159,13 +170,8 @@ class Kalender extends CI_Controller {
             $dag = date('d');
         }
         
-        //configuratie voor hoofdmenu 
-        $menuConfig['active'] = true;
-        
         //library voor het tonen van hoofdmenu
         $this->load->library('Menu_Library', $menuConfig);
-        //url helper -> voor de "base_url()" functie
-        $this->load->helper('url');
         //kalender model -> houdt de template bij
         $this->load->model('Kalender_Model');
         
@@ -191,49 +197,22 @@ class Kalender extends CI_Controller {
         
         //$data bevat de inhoud van de webpagina
         //title: titel van de webpagina
-        $data['title'] = 'week overzicht';
-        //style: css opmaak
-        $data['style'] = '.no-close .ui-dialog-titlebar-close {
-                display: none;
-            }';
-        //script: javascript/jquery
-        $data['script'] = '';
+        $data['title'] = 'Week Overzicht';
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
         //kalender: bevat de kalender
         $data['kalender'] = $this->calendar_week->generate($inhoud);
-        
-        //header laden
-        $this->load->view('templates/header', $data);
-        //inhoud laden
-	$this->load->view('pages/weekOverzicht', $data);      
-        $data['device'] = $this->_footer();
-	$this->load->view('templates/footer', $data);
-    }
-    public function testje(){
-        $this->load->library('user_agent');
-
-        if ($this->agent->is_browser())
-        {
-            $agent = $this->agent->browser().' '.$this->agent->version();
+        if($blnPermission){
+            //header laden
+            $this->load->view('templates/header', $data);
+            //inhoud laden
+            $this->load->view('pages/weekOverzicht', $data);      
+            $data['device'] = $this->_footer();
+            $this->load->view('templates/footer', $data);
+        }else{
+            //redirect('login', 'refresh');
+            header('Location: '.site_url().'/login');
         }
-        elseif ($this->agent->is_robot())
-        {
-            $agent = $this->agent->robot();
-        }
-        elseif ($this->agent->is_mobile())
-        {
-            $agent = $this->agent->mobile();
-        }
-        else
-        {
-            $agent = 'Unidentified User Agent';
-        }
-        
-        echo $agent;
-        echo "<br />";
-        echo $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.) 
-        echo $this->input->ip_address();
     }
 /**
  * @access	private
@@ -266,6 +245,14 @@ class Kalender extends CI_Controller {
             "device" => ''   
         );
         return $arrData;
+    }
+    public function logout()
+    {
+        $this->session->unset_userdata('logged_in');
+        $this->session->sess_destroy();
+        //session_destroy();
+        //redirect('login', 'refresh');
+        header('Location: '.site_url().'/login');
     }
 }
 

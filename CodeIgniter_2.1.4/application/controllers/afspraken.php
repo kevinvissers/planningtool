@@ -7,17 +7,26 @@ class Afspraken extends CI_Controller {
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
  * @author              Bart Bollen <bart.bollen@student.khlim.be>
  * @version		1.0
- * @date		01/11/2013
+ * @date		23/11/2013
  * @copyright (c)       2013, KHLIM-ict
  */ 
     public function toevoegen(){
-        if ( ! file_exists('application/views/pages/maandOverzicht.php'))
+        if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
         
         $data = $this->_init();
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
+
+        $menuConfig = array(
+            'currentController' => 'afspraken',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => 3
+        );
         
         if(isset($_POST['nieuweAfspraakSubmit']))
         {
@@ -25,9 +34,6 @@ class Afspraken extends CI_Controller {
                 'klantID' => $_POST['klantID']                
             );
         }
-        
-        //configuratie voor hoofdmenu 
-        $menuConfig['active'] = true;
         
         //library voor het tonen van hoofdmenu
         $this->load->library('Menu_Library', $menuConfig);
@@ -42,10 +48,6 @@ class Afspraken extends CI_Controller {
         
         //title: titel van de webpagina
         $data['title'] = 'afspraak toevoegen';
-        //style: css opmaak
-        $data['style'] = '.no-close .ui-dialog-titlebar-close {
-                display: none;
-            }';
         //script: javascript/jquery
         if(!isset($data['script']))
         {
@@ -53,14 +55,18 @@ class Afspraken extends CI_Controller {
         }
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
-        
-        //header laden
-        $this->load->view('templates/header', $data);
-        //inhoud laden
-	$this->load->view('pages/afspraakFormulier', $data);
-        //footer laden
-        $data['device'] = $this->_footer();
-	$this->load->view('templates/footer', $data);
+        if($blnPermission){
+            //header laden
+            $this->load->view('templates/header', $data);
+            //inhoud laden
+            $this->load->view('pages/afspraakFormulier', $data);
+            //footer laden
+            $data['device'] = $this->_footer();
+            $this->load->view('templates/footer', $data);
+        }else{
+            //redirect('login', 'refresh');
+            header('Location: '.site_url().'/login');
+        }
         
     }
     private function _init(){
@@ -92,6 +98,13 @@ class Afspraken extends CI_Controller {
             $strFooter = '';
         }
         return $strFooter;
+    }
+    public function logout()
+    {
+        $this->session->unset_userdata('logged_in');
+        $this->session->sess_destroy();
+        //redirect('login', 'refresh');
+        header('Location: '.site_url().'/login');
     }
 }
 ?>
