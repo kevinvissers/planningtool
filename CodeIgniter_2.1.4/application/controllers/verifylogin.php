@@ -1,5 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/**
+ * VerifyLogin extends CI_Controller 
+ * 
+ * Deze controller controlleerd de aanmeld gegevens
+ * 
+ * PHP version 5
+ *
+ *
+ * @package    PlanningTool
+ * @author     Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @copyright  2013
+ * @license    
+ * 
+ */
 class VerifyLogin extends CI_Controller {
 
  function __construct()

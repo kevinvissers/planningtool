@@ -21,7 +21,6 @@ class Kalender extends CI_Controller {
     {
         if ( ! file_exists('application/views/pages/maandOverzicht.php'))
 	{
-		// Whoops, we don't have a page for that!
 		show_404();
 	}
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
@@ -110,16 +109,8 @@ class Kalender extends CI_Controller {
                  $inhoud[$day] = $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID;
             }
         }
-        
-        //$data['arrayding'] = $inhoud;
-        //$data bevat de inhoud van de webpagina
-        //title: titel van de webpagina
+
         $data['title'] = 'maand overzicht';
-        //script: javascript/jquery
-        if(!isset($data['script']))
-        {
-            $data['script'] = '';
-        }
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
         //kalender: bevat de kalender

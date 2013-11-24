@@ -1,20 +1,24 @@
 <?php
-
-class Afspraken extends CI_Controller {
 /**
- * @access	public
- * @package             planningtool
- * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
- * @author              Bart Bollen <bart.bollen@student.khlim.be>
- * @version		1.0
- * @date		23/11/2013
- * @copyright (c)       2013, KHLIM-ict
- */ 
+ * Afspraken extends CI_Controller 
+ * 
+ * Via deze controller worden de afspraken beheerd
+ * 
+ * PHP version 5
+ *
+ *
+ * @package    PlanningTool
+ * @author     Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author     Bart Bollen <bart.bollen@student.khlim.be>
+ * @copyright  2013
+ * @license    
+ * 
+ */
+class Afspraken extends CI_Controller {
     public function toevoegen(){
         if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
 	{
-		// Whoops, we don't have a page for that!
-		show_404();
+            show_404();
 	}
         
         $data = $this->_init();
@@ -37,8 +41,6 @@ class Afspraken extends CI_Controller {
         
         //library voor het tonen van hoofdmenu
         $this->load->library('Menu_Library', $menuConfig);
-        //url helper -> voor de "base_url()" functie
-        $this->load->helper('url');
         //afspraken model
         $this->load->model('Afspraken_model');
         $this->load->model('Klanten_model');
@@ -47,7 +49,7 @@ class Afspraken extends CI_Controller {
         $data['klantenTabel'] = $this->Klanten_model->KlantenTabelTonen();
         
         //title: titel van de webpagina
-        $data['title'] = 'afspraak toevoegen';
+        $data['title'] = 'Afspraak toevoegen';
         //script: javascript/jquery
         if(!isset($data['script']))
         {
