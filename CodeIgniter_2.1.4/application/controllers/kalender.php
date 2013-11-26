@@ -245,6 +245,57 @@ class Kalender extends CI_Controller {
         //redirect('login', 'refresh');
         header('Location: '.site_url().'/login');
     }
+    public function dagOverzicht($jaar=null, $maand=null,$dag=null){
+        if ( ! file_exists('./../../ddagOverzicht.php')) {show_404();}
+
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
+        
+        $data = $this->_init();
+        $menuConfig = array(
+            'currentController' => 'kalender',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => 3
+        );
+        
+        //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
+        if ($jaar==null) {$jaar = date('Y');}  
+        //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige maand
+        if ($maand==null) {$maand = date('m');}
+        //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige maand
+        if($dag ==null){$dag = date('d');}
+
+        //library voor het tonen van hoofdmenu
+        $this->load->library('Menu_Library', $menuConfig);
+        //kalender model -> houdt de template bij
+        $this->load->model('Kalender_Model');
+        //afspraken model
+        $this->load->model('Afspraken_model');
+
+        $data['title'] = 'dag overzicht';
+        //menu: bevat het hoofdmenu
+        $data['menu'] = $this->menu_library->ToonMenu();
+
+        //TODO maak calender dag library
+        $data['kalender'] = $this->calendar->generate($dag,$maand,$jaar $inhoud);
+        if($blnPermission){
+            //header laden
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/dagOverzicht', $data);
+            //dialog laden, als dit nodig is
+            if(isset($_GET['modal'])){
+                $this->load->view('templates/emptyModal');
+            }
+            //footer laden
+            $data['device'] = $this->_footer();
+            $this->load->view('templates/footer', $data);
+        }else{
+            //redirect('login', 'refresh');
+            header('Location: '.site_url().'/login');
+        }     
+    }
+
 }
 
 ?>
