@@ -59,7 +59,7 @@ class Gebruiker extends CI_Controller{
         }  
     }
     public function Bewerken(){
-        if ( ! file_exists('application/views/pages/gebruikerFormulier.php'))
+        if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
@@ -82,9 +82,28 @@ class Gebruiker extends CI_Controller{
         if($blnPermission){
             $data['menu'] = $this->menu_library->ToonMenu();
             $data['title'] = 'Gebruiker bewerken';
-
+            
+            if(isset($_POST['Bewerken'])){
+                $data['klantenTabel'] = $this->Gebruiker_model->Tonen($_POST['userid']);
+            }
+            if(isset($_POST['Verwijderen'])){
+                $this->Gebruiker_model->Verwijderen($_POST['userid']);
+                $data['klantenTabel'] = "<p>Gebruiker succesvol verwijderd.</p>";
+            }
+            if(isset($_POST['update'])){
+                $arrGegevens = array(
+                    'gebruikersNaam' => $_POST['user'],
+                    'idfunctie' => $_POST['type'],
+                    'gebruikersID' => $_POST['userid']
+                );
+                $this->Gebruiker_model->Bewerken($arrGegevens);
+                $data['klantenTabel'] = "<p>Gebruiker succesvol geupdate.</p>";
+            }
+            
+            $data['afspraakFormulier'] = $this->Gebruiker_model->AlleGebruikersTonen();
+            
             $this->load->view('templates/header', $data);
-            $this->load->view('pages/gebruikerFormulier', $data);
+            $this->load->view('pages/afspraakFormulier', $data);
             $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);          
         }else{

@@ -97,10 +97,58 @@ class Gebruiker_model extends CI_Model {
         return '<p>Het nieuwe wachtwoord is doorgemaild naar '.$strGebruikersNaam.'.<br />U kan dit wachtwoord wijzigen.</p>';
     }
     public function Bewerken($arrGebruikersGegevens){
-        
+        $this->db->where('gebruikersID', $arrGebruikersGegevens['gebruikersID']);
+        $this->db->update('aanmeldgegevens',$arrGebruikersGegevens);
     }
     public function Tonen($intGebruikersID){
+        $this->db->select('*');
+        $this->db->where('gebruikersID', $intGebruikersID);
+        $this->db->from('aanmeldgegevens');
+        $this->db->join('functiegebruiker', 'aanmeldgegevens.idfunctie = functiegebruiker.idfunctie');
+
+        $query = $this->db->get();
+        foreach ($query->result() as $row)
+        {
+            echo $row->gebruikersID;
+            echo $row->gebruikersNaam;
+            echo $row->functienaam;
+            
+            $strHTML = '<form method="post" name="frmGebruikerToevoegen" class="custom">
+            <fieldset>
+                <legend>Gebruiker Bewerken</legend>   
+            <div class="row">
+                <input type="hidden" name="userid" value="'.$row->gebruikersID.'" >
+                <div class="large-12 columns">
+                    <label for="txtKlantnaam">Gebruikersnaam (email)</label>
+                    <input type="email" placeholder="gebruikersnaam" value="'.$row->gebruikersNaam.'" name="user" required />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-6 columns">
+                    <label for="ddStarttijd">Account type</label>
+                    <select class="medium" name="type">
+                        <option value="4">standaard account</option>
+                        <option value="3">administrator account</option>
+                        <option value="5">bezoeker account</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <hr>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="large-6 columns">
+                    <button type="submit" class="small button" name="update">Opslaan</button>
+                </div>
+            </div>
+            </fieldset>
+            </form>';
+        }
         
+        return $strHTML;
     }
     public function GenereerNieuwWachtwoord(){
         //$this->load->library('encrypt');
@@ -143,5 +191,39 @@ class Gebruiker_model extends CI_Model {
             return $strErrorMessage;
         }
    }
+    public function AlleGebruikersTonen(){
+        $strHTML = '<fieldset>
+                <legend>Selecteer gebruiker</legend> ';
+        
+        $this->db->select('*'); 
+        $this->db->from('aanmeldgegevens'); 
+
+        $query = $this->db->get();
+
+        foreach ($query->result() as $row){ 
+            $strHTML .= '<form method="POST" name="frmAlleGebruikersTonen" class="custom">
+             
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="large-6 columns">
+                        <label>'.$row->gebruikersNaam.'</label>
+                    </div>
+                    <div class="large-3 columns">
+                        <input type="hidden" name="userid" value="'.$row->gebruikersID.'" >
+                        <input type="submit" class="small button" name="Bewerken" value="Bewerken" >
+                    </div>
+                    <div class="large-3 columns">
+                        <input type="submit" class="small button" name="Verwijderen" value="Verwijderen" >
+                    </div>
+                </div>
+            </div>
+            </form>';     
+        } 
+        $strHTML .= '</fieldset>';
+        return $strHTML;
+    }
+    public function Verwijderen($intGebruikersID){
+        $this->db->delete('aanmeldgegevens', array('gebruikersID' => $intGebruikersID));
+    }
 }
 ?>

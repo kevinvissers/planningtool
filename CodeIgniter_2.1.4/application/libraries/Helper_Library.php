@@ -44,7 +44,8 @@ class Helper_Library {
             "kalender" => '',
             "device" => '',
             "afspraakFormulier" => '',
-            "gebruikerFormulier" => ''
+            "gebruikerFormulier" => '',
+            "klantenTabel" => ''
         );
         return $arrData;
     }
