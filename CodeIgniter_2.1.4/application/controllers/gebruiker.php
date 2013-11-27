@@ -22,7 +22,8 @@ class Gebruiker extends CI_Controller{
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        $data = $this->_init();
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
         
@@ -51,7 +52,7 @@ class Gebruiker extends CI_Controller{
 
             $this->load->view('templates/header', $data);
             $this->load->view('pages/gebruikerFormulier', $data);
-            $data['device'] = $this->_footer();
+            $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data); 
         }else{
             header('Location: '.site_url().'/login');
@@ -63,7 +64,8 @@ class Gebruiker extends CI_Controller{
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        $data = $this->_init();
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
         
@@ -83,7 +85,7 @@ class Gebruiker extends CI_Controller{
 
             $this->load->view('templates/header', $data);
             $this->load->view('pages/gebruikerFormulier', $data);
-            $data['device'] = $this->_footer();
+            $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);          
         }else{
             header('Location: '.site_url().'/login');
@@ -95,7 +97,8 @@ class Gebruiker extends CI_Controller{
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
-        $data = $this->_init();
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
         
@@ -111,11 +114,11 @@ class Gebruiker extends CI_Controller{
         
         if($blnPermission){
             $data['menu'] = $this->menu_library->ToonMenu();
-            $data['title'] = 'Gebruiker bewerken';
+            $data['title'] = 'Gebruiker verwijderen';
 
             $this->load->view('templates/header', $data);
             $this->load->view('pages/gebruikerFormulier', $data);
-            $data['device'] = $this->_footer();
+            $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);            
         }else{
             header('Location: '.site_url().'/login');
@@ -179,37 +182,6 @@ class Gebruiker extends CI_Controller{
         $this->session->sess_destroy();
         //redirect('login', 'refresh');
         header('Location: '.site_url().'/login');
-    }
-    private function _init(){
-        $arrData = array(
-            "modalId" => '',
-            "modalTitle" => '',
-            "inhoudModal" => '',
-            "script" => '',
-            "afspraak" => '<li class="size-14">geen afspraak geselecteerd</li>',
-            "title" => 'Titel',
-            "style" => '',
-            "menu" => '',
-            "kalender" => '',
-            "device" => '',
-            "afspraakFormulier" => '',
-            "gebruikerFormulier" => ''
-        );
-        return $arrData;
-    }
-    private function _footer(){
-        $this->load->library('user_agent');
-        $strUser = (getenv("username") == null ? $this->input->ip_address() : getenv("username"));
-        if ($this->agent->is_browser()){
-            //$agent = $this->agent->browser().' '.$this->agent->version();
-            $strFooter = '<i class="fi-monitor size-12">&nbsp;&nbsp;'.$this->agent->browser().' - '.$strUser.'</i>';
-        }elseif ($this->agent->is_mobile()){
-            //$agent = $this->agent->mobile();
-            $strFooter = '<i class="fi-mobile size-12">&nbsp;&nbsp;'.$this->agent->mobile().'</i>';
-        }else{
-            $strFooter = '';
-        }
-        return $strFooter;
     }
 }
 ?>

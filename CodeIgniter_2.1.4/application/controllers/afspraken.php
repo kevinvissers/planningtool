@@ -21,7 +21,8 @@ class Afspraken extends CI_Controller {
             show_404();
 	}
         
-        $data = $this->_init();
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
 
@@ -63,43 +64,13 @@ class Afspraken extends CI_Controller {
             //inhoud laden
             $this->load->view('pages/afspraakFormulier', $data);
             //footer laden
-            $data['device'] = $this->_footer();
+            $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);
         }else{
             //redirect('login', 'refresh');
             header('Location: '.site_url().'/login');
         }
         
-    }
-    private function _init(){
-        $arrData = array(
-            "modalId" => '',
-            "modalTitle" => '',
-            "inhoudModal" => '',
-            "script" => '',
-            "afspraak" => '<li class="size-14">geen afspraak geselecteerd</li>',
-            "title" => 'Titel',
-            "style" => '',
-            "menu" => '',
-            "kalender" => '',
-            "device" => '',
-            "afspraakFormulier" => ''
-        );
-        return $arrData;
-    }
-    private function _footer(){
-        $this->load->library('user_agent');
-        $strUser = (getenv("username") == null ? $this->input->ip_address() : getenv("username"));
-        if ($this->agent->is_browser()){
-            //$agent = $this->agent->browser().' '.$this->agent->version();
-            $strFooter = '<i class="fi-monitor size-12">&nbsp;&nbsp;'.$this->agent->browser().' - '.$strUser.'</i>';
-        }elseif ($this->agent->is_mobile()){
-            //$agent = $this->agent->mobile();
-            $strFooter = '<i class="fi-mobile size-12">&nbsp;&nbsp;'.$this->agent->mobile().'</i>';
-        }else{
-            $strFooter = '';
-        }
-        return $strFooter;
     }
     public function logout()
     {

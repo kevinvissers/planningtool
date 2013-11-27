@@ -22,7 +22,8 @@ class Login extends CI_Controller {
 
     function index()
     {
-        $data = $this->_init();
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
         $menuConfig = array(
             'currentController' => 'login',
             'loggedIn' => false,
@@ -33,7 +34,7 @@ class Login extends CI_Controller {
         
         $data['title'] = 'Aanmelden';
         $data['menu'] = $this->menu_library->ToonMenu();
-        $data['device'] = $this->_footer();
+        $data['device'] = $this->helper_library->CreateFooter();
         
         if($this->session->userdata('logged_in')){
             //redirect('kalender/maandOverzicht', 'refresh');
@@ -57,21 +58,6 @@ class Login extends CI_Controller {
             $strFooter = '';
         }
         return $strFooter;
-    }
-    private function _init(){
-        $arrData = array(
-            "modalId" => '',
-            "modalTitle" => '',
-            "inhoudModal" => '',
-            "script" => '',
-            "afspraak" => '<li class="size-14">geen afspraak geselecteerd</li>',
-            "title" => 'Titel',
-            "style" => '',
-            "menu" => '',
-            "kalender" => '',
-            "device" => ''   
-        );
-        return $arrData;
     }
 }
 
