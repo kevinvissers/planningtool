@@ -80,12 +80,29 @@ class Menu_Library {
                         </ul>';
         if($this->loggedIn){             
         $strHtml .= '<ul class="right">
-                        <li class="name">
-                            <a href="#">'.$this->user.'</a>
-                        </li>
-                        <li class="has-button">
-                            <a class="small button knopje" href="'.site_url().'/'.$this->currentController.'/logout">Afmelden</a>
-                        </li>
+                        <li class="has-dropdown">
+					<a href="#">
+					'.$this->user.'
+					</a>
+					<ul class="dropdown">
+                                                <li><a class="iconlink" href="">
+							<i class="step fi-torso size-21"></i>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;Profiel
+                                                    </a>
+                                                </li>						
+						<li><a class="iconlink" href="">
+							<i class="step fi-pencil size-21"></i>
+                                                        &nbsp;&nbsp;&nbsp;Bewerken
+                                                    </a>
+                                                </li>
+						<li>  
+                                                    <a class="iconlink" href="'.site_url().'/'.$this->currentController.'/logout">
+							<i class="step fi-power size-21"></i>
+                                                        &nbsp;&nbsp;&nbsp;Logout
+                                                    </a>
+                                                </li>
+					</ul>
+				</li>  
                     </ul>';
         }
         $strHtml .= '</section>
