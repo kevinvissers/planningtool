@@ -68,7 +68,6 @@ class Menu_Library {
                                 <!--<li><a href="'.site_url().'/kalender/dagOverzicht">dagoverzicht</a></li>-->
                               </ul>
                             </li>
-                            <!--<li><a href="">Extra</a></li>-->
                         </ul>
                         <ul class="left">
                             <li class="has-dropdown">
@@ -76,10 +75,8 @@ class Menu_Library {
                               <ul class="dropdown">
                                 <li><a href="'.site_url().'/gebruiker/toevoegen">Toevoegen</a></li>
                                 <li><a href="'.site_url().'/gebruiker/bewerken">Bewerken</a></li>
-                                <li><a href="'.site_url().'/gebruiker/verwijderen">Verwijderen</a></li>
                               </ul>
                             </li>
-                            <!--<li><a href="">Extra</a></li>-->
                         </ul>';
         if($this->loggedIn){             
         $strHtml .= '<ul class="right">

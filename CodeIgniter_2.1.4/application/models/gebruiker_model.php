@@ -39,9 +39,9 @@ class Gebruiker_model extends CI_Model {
                 <div class="large-6 columns">
                     <label for="ddStarttijd">Account type</label>
                     <select class="medium" name="type">
-                        <option value="4">standaard account</option>
-                        <option value="3">administrator account</option>
-                        <option value="5">bezoeker account</option>
+                        <option value="3">standaard account</option>
+                        <option value="2">administrator account</option>
+                        <option value="4">bezoeker account</option>
                     </select>
                 </div>
             </div>
@@ -109,10 +109,6 @@ class Gebruiker_model extends CI_Model {
         $query = $this->db->get();
         foreach ($query->result() as $row)
         {
-            echo $row->gebruikersID;
-            echo $row->gebruikersNaam;
-            echo $row->functienaam;
-            
             $strHTML = '<form method="post" name="frmGebruikerToevoegen" class="custom">
             <fieldset>
                 <legend>Gebruiker Bewerken</legend>   
@@ -197,6 +193,8 @@ class Gebruiker_model extends CI_Model {
         
         $this->db->select('*'); 
         $this->db->from('aanmeldgegevens'); 
+        $this->db->join('functiegebruiker', 'aanmeldgegevens.idfunctie = functiegebruiker.idfunctie');
+        $this->db->where('functiegebruiker.userrole <', '3');
 
         $query = $this->db->get();
 
