@@ -35,16 +35,7 @@ CREATE TABLE IF NOT EXISTS `aanmeldgegevens` (
   KEY `idfunctie` (`idfunctie`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
---
--- Gegevens worden uitgevoerd voor tabel `aanmeldgegevens`
---
 
-INSERT INTO `aanmeldgegevens` (`gebruikersID`, `gebruikersNaam`, `wachtwoord`, `idfunctie`) VALUES
-(1, 'kevin.vissers@telenet.be', '9b9824df65f716b71db9f51299346088', 1),
-(2, 'bart.bollen@student.khlim.be', '9b9824df65f716b71db9f51299346088', 1),
-(3, 'dylan.derwael@student.khlim.be', '37686ba33dd511ea2e2c435eb38e1f94', 2);
-
--- --------------------------------------------------------
 
 --
 -- Tabelstructuur voor tabel `afspraken`
@@ -92,6 +83,16 @@ INSERT INTO `functiegebruiker` (`idfunctie`, `functienaam`, `userrole`) VALUES
 (3, 'standaard', 1),
 (4, 'bezoeker', 0);
 
+--
+-- Gegevens worden uitgevoerd voor tabel `aanmeldgegevens`
+--
+
+INSERT INTO `aanmeldgegevens` (`gebruikersID`, `gebruikersNaam`, `wachtwoord`, `idfunctie`) VALUES
+(1, 'kevin.vissers@telenet.be', '9b9824df65f716b71db9f51299346088', 1),
+(2, 'bart.bollen@student.khlim.be', '9b9824df65f716b71db9f51299346088', 1),
+(3, 'dylan.derwael@student.khlim.be', '37686ba33dd511ea2e2c435eb38e1f94', 2);
+
+-- --------------------------------------------------------
 -- --------------------------------------------------------
 
 --
