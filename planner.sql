@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `gemeente` (
 --
 
 CREATE TABLE IF NOT EXISTS `klanten` (
-  `klantID` varchar(10) NOT NULL,
+  `klantID` int(11) NOT NULL AUTO_INCREMENT,
   `voornaam` varchar(25) NOT NULL,
   `achternaam` varchar(25) NOT NULL,
   `straat` varchar(50) NOT NULL,
