@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `Informatie` (
 CREATE TABLE IF NOT EXISTS `aanmeldgegevens` (
   `gebruikersID` int(11) NOT NULL AUTO_INCREMENT,
   `gebruikersNaam` varchar(50) NOT NULL,
-  `wachtwoord` varchar(30) NOT NULL,
+  `wachtwoord` varchar(100) NOT NULL,
   `idfunctie` int(11) NOT NULL,
   PRIMARY KEY (`gebruikersID`),
   KEY `idfunctie` (`idfunctie`)
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `aanmeldgegevens` (
 CREATE TABLE IF NOT EXISTS `afspraken` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date NOT NULL,
-  `klantID` varchar(50) NOT NULL,
+  `klantID` int(11) NOT NULL,
   `startTijd` datetime NOT NULL,
   `eindTijd` datetime DEFAULT NULL,
   `omschrijving` varchar(70) DEFAULT NULL,
