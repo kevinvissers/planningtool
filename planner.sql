@@ -58,7 +58,6 @@ CREATE TABLE IF NOT EXISTS `aanmeldgegevens` (
 
 CREATE TABLE IF NOT EXISTS `afspraken` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date NOT NULL,
   `klantID` int(11) NOT NULL,
   `startTijd` datetime NOT NULL,
   `eindTijd` datetime DEFAULT NULL,
