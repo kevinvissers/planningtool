@@ -91,23 +91,19 @@ class Kalender extends CI_Controller {
         
         //inhoud bevat de afspraken voor de huidige maand, deze worden opgehaald met ToonAfspraken
         $inhoud = array();
-        foreach ($this->Kalender_Model->ToonAfspraken($maand, $jaar) as $row)
-        {
-            //afspraakID
-            $afspraakID = $row->ID;
-            //datum omvormen naar timestamp
-            $timestamp = strtotime($row->datum);
-            //dag uit timestamp filteren
-            $day = date('d', $timestamp);
-            //voorafgaande "0" verwijderen
-            $day = ltrim($day, '0');
-            
-            //$inhoud[$day] = $_SERVER['PHP_SELF'].'?dag='.$day;
+        
+        $this->db->select('*');
+        $this->db->like('startTijd', $jaar."-".$maand);
+        $this->db->from('afspraken');
+        $arrIets = $this->db->get();
+        
+        foreach ($arrIets->result() as $value) {
+            $day = ltrim(date('d', strtotime($value->startTijd)), 0);
             if(array_key_exists($day, $inhoud)){
-                 $inhoud[$day] = $inhoud[$day].','.$afspraakID;
+                 $inhoud[$day] = $inhoud[$day].','.$value->id;
             }else{
                  //array_push($inhoud, $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID);
-                 $inhoud[$day] = $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$afspraakID;
+                 $inhoud[$day] = $_SERVER['PHP_SELF'].'?dag='.$day.'&id='.$value->id;
             }
         }
 

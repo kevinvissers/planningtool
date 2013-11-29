@@ -13,11 +13,15 @@
     <link rel="stylesheet" href="<?php echo base_url() ?>foundation-icons/foundation-icons.css" />
     <link rel="stylesheet" href="<?php echo base_url() ?>css/basic.css" type="text/css" />
     
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="<?php echo base_url() ?>css/jquery-ui.css" type="text/css" />
+    <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />-->
     <link type="text/css" media="screen" rel="stylesheet" href="<?php echo base_url() ?>css/prettyPhoto.css" title="prettyPhoto main stylesheet" charset="utf-8" />
     
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+    <!--<script src="<?php //echo base_url() ?>scripts/jquery-1.8.3.js" type="text/javascript"></script>-->
+    <script src="<?php echo base_url() ?>scripts/jquery/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>scripts/jquery/jquery-ui.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>scripts/myScript.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>scripts/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
     

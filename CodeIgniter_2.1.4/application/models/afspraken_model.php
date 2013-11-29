@@ -134,10 +134,17 @@ class Afspraken_model extends CI_Model{
         
         try{
             $arrGegevens = $this->allegegevens($intID);
-
+            
+            $this->db->select('*');
+            $this->db->from('aanmeldgegevens');
+            $this->db->where('gebruikersID', $arrGegevens['gebruikersID']);
+            $objGebruiker = $this->db->get();
+            
+            $strGebruiker = $objGebruiker->result_array();
+            
             $arrResultaat = array();
             $arrResultaat['modalId'] = 'afspraakEigenschappenDialog';
-            $arrResultaat['modalTitle'] = $arrGegevens['datum'];
+            $arrResultaat['modalTitle'] = date('d-m-Y', strtotime($arrGegevens['datum']));
             $arrResultaat['inhoudModal'] = '<form method="post">
             <table>
                 <tr>
@@ -192,7 +199,7 @@ class Afspraken_model extends CI_Model{
                 </tr>
                 <tr>
                     <td></td>
-                    <td>Gebruikersnaam</td>
+                    <td>'.$strGebruiker[0]['gebruikersNaam'].'</td>
                     <td></td>
                 </tr>
                 <tr>
@@ -340,12 +347,11 @@ class Afspraken_model extends CI_Model{
         $arrAfspraakEigenschappen = $this->Tonen($intID);
         $gegevens = array();
         foreach ($arrAfspraakEigenschappen as $row) {
-            $gegevens['datum'] = $row->datum;
             $gegevens['klantID'] = $row->klantID;
+            $gegevens['datum'] = $row->startTijd;
             $gegevens['startTijd'] = $row->startTijd;
             $gegevens['eindTijd'] = $row->eindTijd;
             $gegevens['omschrijving'] = $row->omschrijving;
-            $gegevens['materiaalID'] = $row->materiaalID;
             $gegevens['actief'] = $row->actief;
             $gegevens['gebruikersID'] = $row->gebruikersID;
         }
@@ -355,8 +361,15 @@ class Afspraken_model extends CI_Model{
         $timestamp = strtotime($row->eindTijd);
         $gegevens['eindTijd'] = date("G:i", $timestamp);
 
-        $arrKlantEigenschappen = $this->db->query('SELECT * FROM klanten WHERE klantID='.$gegevens['klantID']);
-
+        //$arrKlantEigenschappen = $this->db->query('SELECT * FROM klanten WHERE klantID='.$gegevens['klantID']);
+        
+        $this->db->select('*');
+        $this->db->from('klanten');
+        $this->db->join('gemeente', 'gemeente.idgemeente = klanten.idgemeente');
+        $this->db->where('klanten.klantID', $gegevens['klantID']);
+        
+        $arrKlantEigenschappen = $this->db->get();
+        
         foreach ($arrKlantEigenschappen->result() as $row)
         {
             $gegevens['voornaam'] = $row->voornaam;
