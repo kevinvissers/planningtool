@@ -123,7 +123,7 @@ class Menu_Library {
                                                         &nbsp;&nbsp;&nbsp;&nbsp;<span>Profiel</span>
                                                     </a>
                                                 </li>
-						<li><a class="iconlink" href="">
+						<li><a class="iconlink" href="'.site_url().'/gebruiker/wachtwoordWijzigen">
 							<i class="step fi-pencil size-21"></i>
                                                         &nbsp;&nbsp;&nbsp;Bewerken
                                                     </a>

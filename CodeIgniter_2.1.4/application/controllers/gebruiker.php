@@ -196,11 +196,48 @@ class Gebruiker extends CI_Controller{
             echo "Verkeerd gebruik van functie.";
         }
     }
-    public function logout()
-    {
+    
+    public function wachtwoordWijzigen(){
+        if ( ! file_exists('application/views/pages/gebruikerFormulier.php'))
+	{
+		// Whoops, we don't have a page for that!
+		show_404();
+	}
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
+        
+        $menuConfig = array(
+            'currentController' => 'gebruiker',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => 3
+        );
+        
+        $this->load->library('Menu_Library', $menuConfig);
+        $this->load->model('Gebruiker_model');
+        
+        if($blnPermission){
+            $data['menu'] = $this->menu_library->ToonMenu();
+            $data['gebruikerFormulier'] = $this->Gebruiker_model->WachtwoordWijzigenFormulier();
+            $data['title'] = 'Wachtwoord wijzigen';
+            if(isset($_POST['wijzigen'])){
+                $data['gebruikerFormulier'] = $this->Gebruiker_model->WachtwoordWijzigen($session_data['username'], $_POST['password'], $_POST['oudWachtwoord']);
+            }
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/gebruikerFormulier', $data);
+            $data['device'] = $this->helper_library->CreateFooter();
+            $this->load->view('templates/footer', $data); 
+        }else{
+            header('Location: '.site_url().'/login');
+        }
+    }
+    
+    public function logout(){
         $this->session->unset_userdata('logged_in');
         $this->session->sess_destroy();
-        //redirect('login', 'refresh');
         header('Location: '.site_url().'/login');
     }
 }

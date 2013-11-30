@@ -85,10 +85,50 @@ class Gebruiker_model extends CI_Model {
                 $this->db->where('wachtwoord', md5($strOudWachtwoord));
             }
             $this->db->update('aanmeldgegevens', $data); 
-            return 'Wachtwoord succesvol gewijzigd.';
+            if($this->db->affected_rows() > 0){
+                return 'Wachtwoord succesvol gewijzigd.';
+            }else{
+                return "Wachtwoord wijzigen mislukt!";
+            }
         }catch(PDOException $ex){
             return $ex->getMessage();
         }
+    }
+    public function WachtwoordWijzigenFormulier(){
+        $strHTML = '<form method="post" name="frmWachtwoordWijzigen" id="frmWachtwoordWijzigen" class="custom">
+            <fieldset>
+                <legend>Wachtwoord Wijzigen</legend>   
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="oudWachtwoord">Huidig wachtwoord</label>
+                    <input type="password" placeholer="Huidig wachtwoord" name="oudWachtwoord" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="password">Nieuw wachtwoord</label>
+                    <input type="password" name="password" placeholder="Nieuw wachtwoord" id="password" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="password_again">Herlaal nieuw wachtwoord</label>
+                    <input type="password" name="password_again" placeholder="Nieuw wachtwoord" id="password_again" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <hr>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="large-6 columns">
+                    <button type="submit" class="small button" name="wijzigen">Wijzigen</button>
+                </div>
+            </div>
+            </fieldset>
+            </form>';
+        return $strHTML;
     }
     public function WachtwoordVergeten($strGebruikersNaam){
         $strNieuwWachtwoord = $this->GenereerNieuwWachtwoord();
@@ -125,9 +165,9 @@ class Gebruiker_model extends CI_Model {
                 <div class="large-6 columns">
                     <label for="ddStarttijd">Account type</label>
                     <select class="medium" name="type">
-                        <option value="4">standaard account</option>
-                        <option value="3">administrator account</option>
-                        <option value="5">bezoeker account</option>
+                        <option value="3">standaard account</option>
+                        <option value="2">administrator account</option>
+                        <option value="4">bezoeker account</option>
                     </select>
                 </div>
             </div>
@@ -203,7 +243,8 @@ class Gebruiker_model extends CI_Model {
         
         $this->db->select('*'); 
         $this->db->from('aanmeldgegevens'); 
-
+        $this->db->where('idfunctie >', 1);
+        
         $query = $this->db->get();
 
         foreach ($query->result() as $row){ 
