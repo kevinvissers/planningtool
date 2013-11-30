@@ -73,11 +73,11 @@ class Klanten_model extends CI_Model {
             <div class="row">
                 <div class="large-6 columns">
                     <label for="txtVoornaam">Voornaam</label>
-                    <input type="text" placeholder="Voornaam" id="txtVoornaam" name="voornaam">
+                    <input type="text" placeholder="Voornaam" id="txtVoornaam" name="voornaam" required>
                 </div>
                 <div class="large-6 columns">
                     <label for="txtAchternaam">Achternaam</label>
-                    <input type="text" placeholder="Achternaam" id="txtAchternaam" name="achternaam">
+                    <input type="text" placeholder="Achternaam" id="txtAchternaam" name="achternaam" required>
                 </div>
             </div>
             
@@ -90,22 +90,22 @@ class Klanten_model extends CI_Model {
             <div class="row">
                 <div class="large-8 columns">
                     <label for="txtGemeente">Gemeente</label>
-                    <input type="text" placeholder="Gemeente" id="txtGemeente" name="gemeente">
+                    <input type="text" placeholder="Gemeente" id="txtGemeente" name="gemeente" required>
                 </div>
                 <div class="large-4 columns">
                     <label for="txtPostcode">Postcode</label>
-                    <input type="text" placeholder="Postcode" id="txtPostcode" name="postcode">
+                    <input type="text" placeholder="Postcode" id="txtPostcode" name="postcode" required>
                 </div>
             </div>
             
             <div class="row">
                 <div class="large-8 columns">
                     <label for="txtStraat">Straatnaam</label>
-                    <input type="text" placeholder="Straatnaam" id="txtStraat" name="straat">
+                    <input type="text" placeholder="Straatnaam" id="txtStraat" name="straat" required>
                 </div>
                 <div class="large-4 columns">
                     <label for="txtHuisnummer">Huisnummer</label>
-                    <input type="text" placeholder="Huisnummer" id="txtHuisnummer" name="huisnummer">
+                    <input type="text" placeholder="Huisnummer" id="txtHuisnummer" name="huisnummer" required>
                 </div>
             </div>            
                  
@@ -129,7 +129,7 @@ class Klanten_model extends CI_Model {
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtEmail">Email adres:</label>
-                    <input type="text" placeholder="Email" id="txtEmail" name="email">
+                    <input type="email" placeholder="Email" id="txtEmail" name="email">
                 </div>
             </div>
             
