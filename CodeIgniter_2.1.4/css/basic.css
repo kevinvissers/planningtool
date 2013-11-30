@@ -2,9 +2,39 @@
     Document   : basic
     Created on : 23-nov-2013, 15:55:32
     Author     : Kevin Vissers 
+    Author     : Bart Bollen 
     Description:
         Purpose of the stylesheet follows.
 */
+
+/* foundation icon size */
+a.iconlink i {color: #888;}
+/*#888*/
+
+a.iconlink:hover > i, 
+    a.iconlink i:focus { color: #2ba6cb; }
+/*5FB404*/
+
+      
+.size-12 { font-size: 12px; }
+
+.size-14 { font-size: 14px; }
+
+.size-16 { font-size: 16px; }
+
+.size-18 { font-size: 18px; }
+
+.size-21 { font-size: 21px; }
+
+.size-24 { font-size: 24px; }
+
+.size-36 { font-size: 36px; }
+
+.size-48 { font-size: 48px; }
+
+.size-60 { font-size: 60px; }
+
+.size-72 { font-size: 72px; }
 
 /* footer */
 /*.footer {position:fixed;left:0px;bottom:0px;width:100%;line-height: 24px;font-size: 11px;background: #fff;background: rgba(255, 255, 255, 0.5);text-transform: uppercase;z-index: 100;box-shadow: 1px 0px 2px rgba(0,0,0,0.2);}*/
@@ -20,18 +50,6 @@ span.right {float: right;}
 .has-button{margin-right:5px;}
 /* highlight today */
 .highlight{font-size:larger;}  
-
-/* foundation icon size */
-.size-12 { font-size: 12px; }
-.size-14 { font-size: 14px; }
-.size-16 { font-size: 16px; }
-.size-18 { font-size: 18px; }
-.size-21 { font-size: 21px; }
-.size-24 { font-size: 24px; }
-.size-36 { font-size: 36px; }
-.size-48 { font-size: 48px; }
-.size-60 { font-size: 60px; }
-.size-72 { font-size: 72px; }
 
 /* maandkalender */
 table{ 

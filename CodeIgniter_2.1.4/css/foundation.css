@@ -2844,11 +2844,11 @@ label.error {
 
 .top-bar {
   overflow: hidden;
-  height: 45px;
+  /*height: 45px;*/
   line-height: 45px;
   position: relative;
   background: #111111;
-  margin-bottom: 0; }
+  border-bottom: 4px solid #2ba6cb;}
   .top-bar ul {
     margin-bottom: 0;
     list-style: none; }

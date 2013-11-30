@@ -4,6 +4,7 @@
  *
  * @package             planningtool
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author              Bart Bollen <bart.bollen@student.khlim.be>
  * @version		1.0
  * @date		01/11/2013
  * @copyright (c)       2013, KHLIM-ict
@@ -68,28 +69,60 @@ class Menu_Library {
                                 <!--<li><a href="'.site_url().'/kalender/dagOverzicht">dagoverzicht</a></li>-->
                               </ul>
                             </li>
+                            <!--<li><a href="">Extra</a></li>-->
                         </ul>
                         <ul class="left">
                             <li class="has-dropdown">
                               <a class="active" href="#">Gebruikers</a>
                               <ul class="dropdown">
-                                <li><a href="'.site_url().'/gebruiker/toevoegen">Toevoegen</a></li>
-                                <li><a href="'.site_url().'/gebruiker/bewerken">Bewerken</a></li>
+                                <li><a class="iconlink" href="'.site_url().'/gebruiker/toevoegen">
+                                    <i class="step fi-plus size-21"></i>
+                                    &nbsp;&nbsp;
+                                    Toevoegen
+                                    </a>
+                                </li>
+                                <li><a class="iconlink" href="'.site_url().'/gebruiker/bewerken">
+                                    <i class="step fi-pencil size-21"></i>
+                                    &nbsp;&nbsp;
+                                    Bewerken
+                                    </a>
+                                </li>
                               </ul>
                             </li>
-                        </ul>';
+                            <!--<li><a href="">Extra</a></li>-->
+                        </ul>
+                        <ul class="left">
+                                <li class="has-dropdown">
+                                  <a class="active" href="#">Klanten</a>
+                                  <ul class="dropdown">
+                                    <li><a class="iconlink" href="'.site_url().'/klanten/toevoegen">
+                                        <i class="step fi-plus size-21"></i>
+                                        &nbsp;&nbsp;
+                                        Toevoegen
+                                        </a>
+                                    </li>
+                                    <li><a class="iconlink" href="'.site_url().'/klanten/bewerken">
+                                        <i class="step fi-pencil size-21"></i>
+                                        &nbsp;&nbsp;
+                                        Bewerken
+                                        </a>
+                                    </li>
+                                  </ul>
+                                </li>
+                                <!--<li><a href="">Extra</a></li>-->
+                            </ul>';
         if($this->loggedIn){             
         $strHtml .= '<ul class="right">
                         <li class="has-dropdown">
-					<a href="#">
+					<a href="#" style="color:#888">
 					'.$this->user.'
 					</a>
 					<ul class="dropdown">
                                                 <li><a class="iconlink" href="">
 							<i class="step fi-torso size-21"></i>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;Profiel
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;<span>Profiel</span>
                                                     </a>
-                                                </li>						
+                                                </li>
 						<li><a class="iconlink" href="">
 							<i class="step fi-pencil size-21"></i>
                                                         &nbsp;&nbsp;&nbsp;Bewerken
@@ -111,6 +144,10 @@ class Menu_Library {
 		  <hr />
 		</div>
 		</div>
+                <div class="row">
+                    <div class="large-12 columns">
+                    </div>
+                </div>
 
 	<!-- End Nav -->';
         return $strHtml;

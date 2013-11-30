@@ -9,6 +9,7 @@
  *
  * @package    PlanningTool
  * @author     Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author     Bart Bollen <bart.bollen@student.khlim.be>
  * @copyright  2013
  * @license    
  * 

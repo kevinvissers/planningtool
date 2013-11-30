@@ -4,6 +4,7 @@
  *
  * @package             planningtool
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author              Bart Bollen <bart.bollen@student.khlim.be>
  * @version		1.0
  * @date		24/11/2013
  * @copyright (c)       2013, KHLIM-ict
@@ -37,11 +38,11 @@ class Gebruiker_model extends CI_Model {
             
             <div class="row">
                 <div class="large-6 columns">
-                    <label for="ddStarttijd">Account type</label>
-                    <select class="medium" name="type">
-                        <option value="3">standaard account</option>
-                        <option value="2">administrator account</option>
-                        <option value="4">bezoeker account</option>
+                    <label for="selectAccount">Account type</label>
+                    <select name="type" id="selectAccount">
+                        <option value="4">standaard account</option>
+                        <option value="3">administrator account</option>
+                        <option value="5">bezoeker account</option>
                     </select>
                 </div>
             </div>
@@ -108,7 +109,7 @@ class Gebruiker_model extends CI_Model {
 
         $query = $this->db->get();
         foreach ($query->result() as $row)
-        {
+        {            
             $strHTML = '<form method="post" name="frmGebruikerToevoegen" class="custom">
             <fieldset>
                 <legend>Gebruiker Bewerken</legend>   
@@ -189,35 +190,42 @@ class Gebruiker_model extends CI_Model {
    }
     public function AlleGebruikersTonen(){
         $strHTML = '<fieldset>
-                <legend>Selecteer gebruiker</legend> ';
+                <legend>Selecteer gebruiker</legend> 
+                <table>
+                    <thead>
+                      <tr>
+                        <th>Gebruiker</th>
+                        <th>Bewerken</th>
+                        <th>Verwijderen</th>
+                      </tr>
+                    </thead>
+                    <tbody>';
         
         $this->db->select('*'); 
         $this->db->from('aanmeldgegevens'); 
-        $this->db->join('functiegebruiker', 'aanmeldgegevens.idfunctie = functiegebruiker.idfunctie');
-        $this->db->where('functiegebruiker.userrole <', '3');
 
         $query = $this->db->get();
 
         foreach ($query->result() as $row){ 
-            $strHTML .= '<form method="POST" name="frmAlleGebruikersTonen" class="custom">
-             
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="large-6 columns">
-                        <label>'.$row->gebruikersNaam.'</label>
-                    </div>
-                    <div class="large-3 columns">
-                        <input type="hidden" name="userid" value="'.$row->gebruikersID.'" >
-                        <input type="submit" class="small button" name="Bewerken" value="Bewerken" >
-                    </div>
-                    <div class="large-3 columns">
-                        <input type="submit" class="small button" name="Verwijderen" value="Verwijderen" >
-                    </div>
-                </div>
-            </div>
-            </form>';     
+            $strHTML .= '<tr>
+                            <td>
+                                '.$row->gebruikersNaam.'
+                            </td>
+                            <td>
+                                <form form method="POST">
+                                    <input type="hidden" name="userid" value="'.$row->gebruikersID.'" >
+                                    <input type="submit" class="small button" name="Bewerken" value="Bewerken" >
+                                </form>
+                            </td>
+                            <td>
+                                <form form method="POST">
+                                    <input type="hidden" name="userid" value="'.$row->gebruikersID.'" >
+                                        <input type="submit" class="small button" name="Verwijderen" value="Verwijderen" >                                   
+                                </form>
+                            </td>
+                        </tr>';     
         } 
-        $strHTML .= '</fieldset>';
+        $strHTML .= '</tbody></table></fieldset>';
         return $strHTML;
     }
     public function Verwijderen($intGebruikersID){
