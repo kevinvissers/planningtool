@@ -28,7 +28,7 @@ class Login extends CI_Controller {
             'currentController' => 'login',
             'loggedIn' => false,
             'user' => '',
-            'userRole' => 3
+            'userRole' => 0
         );
         $this->load->library('Menu_Library', $menuConfig);
         

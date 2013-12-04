@@ -70,8 +70,9 @@ class Menu_Library {
                               </ul>
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
-                        </ul>
-                        <ul class="left">
+                        </ul>';
+                        if($this->userRole == 3){
+                        $strHtml .= '<ul class="left">
                             <li class="has-dropdown">
                               <a class="active" href="#">Gebruikers</a>
                               <ul class="dropdown">
@@ -90,8 +91,9 @@ class Menu_Library {
                               </ul>
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
-                        </ul>
-                        <ul class="left">
+                        </ul>';
+                        }
+                        $strHtml .= '<ul class="left">
                                 <li class="has-dropdown">
                                   <a class="active" href="#">Klanten</a>
                                   <ul class="dropdown">
@@ -131,7 +133,7 @@ class Menu_Library {
 						<li>  
                                                     <a class="iconlink" href="'.site_url().'/'.$this->currentController.'/logout">
 							<i class="step fi-power size-21"></i>
-                                                        &nbsp;&nbsp;&nbsp;Logout
+                                                        &nbsp;&nbsp;&nbsp;Afmelden
                                                     </a>
                                                 </li>
 					</ul>

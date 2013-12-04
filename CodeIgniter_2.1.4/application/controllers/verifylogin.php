@@ -37,7 +37,7 @@ class VerifyLogin extends CI_Controller {
                 'currentController' => 'login',
                 'loggedIn' => false,
                 'user' => '',
-                'userRole' => 3
+                'userRole' => 0
             );
             $this->load->library('Menu_Library', $menuConfig);
 
@@ -67,7 +67,8 @@ class VerifyLogin extends CI_Controller {
             foreach($result as $row){
                 $sess_array = array(
                     'id' => $row->gebruikersID,
-                    'username' => $row->gebruikersNaam
+                    'username' => $row->gebruikersNaam,
+                    'userrole' => $row->userrole    
                 );
                 $this->session->set_userdata('logged_in', $sess_array);
             }

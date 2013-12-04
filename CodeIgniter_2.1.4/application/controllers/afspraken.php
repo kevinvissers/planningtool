@@ -30,7 +30,7 @@ class Afspraken extends CI_Controller {
             'currentController' => 'afspraken',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         if(isset($_POST['nieuweAfspraakSubmit']))

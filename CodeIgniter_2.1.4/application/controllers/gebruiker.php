@@ -32,7 +32,7 @@ class Gebruiker extends CI_Controller{
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);
@@ -74,7 +74,7 @@ class Gebruiker extends CI_Controller{
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);
@@ -126,7 +126,7 @@ class Gebruiker extends CI_Controller{
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);
@@ -212,7 +212,7 @@ class Gebruiker extends CI_Controller{
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);

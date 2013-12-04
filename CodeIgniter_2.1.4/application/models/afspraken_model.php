@@ -203,9 +203,9 @@ class Afspraken_model extends CI_Model{
                     <td></td>
                 </tr>
                 <tr>
-                    <td><input type="submit" name="wijzigen" value="Wijzigen" id="wijzigen" /></td>
-                    <td><input type="submit" name="verwijderen" value="Verwijderen" id="verwijderen" /></td>
-                    <td><input type="submit" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></td>
+                    <td><input type="submit" class="small button" name="wijzigen" value="Wijzigen" id="wijzigen" /></td>
+                    <td><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></td>
+                    <td><input type="submit" class="small button" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></td>
                 </tr>
             </table>
             </form>';

@@ -32,9 +32,9 @@ class Kalender extends CI_Controller {
             'currentController' => 'kalender',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
-        
+
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
             $jaar = date('Y');
@@ -145,7 +145,7 @@ class Kalender extends CI_Controller {
             'currentController' => 'kalender',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
         if ($jaar==null) {
@@ -216,7 +216,7 @@ class Kalender extends CI_Controller {
             'currentController' => 'kalender',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van het huidige jaar
