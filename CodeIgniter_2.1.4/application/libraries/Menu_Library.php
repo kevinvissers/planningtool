@@ -109,6 +109,7 @@ class Menu_Library {
                                         Bewerken
                                         </a>
                                     </li>
+                                    <li><a class="iconlink" href="'.site_url().'/klanten/tonen"> <i class="step fi-address-book size-21"></i> &nbsp;&nbsp; Klantenbestand </a> </li>
                                   </ul>
                                 </li>
                                 <!--<li><a href="">Extra</a></li>-->
