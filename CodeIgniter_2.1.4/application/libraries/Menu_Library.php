@@ -113,7 +113,22 @@ class Menu_Library {
                                   </ul>
                                 </li>
                                 <!--<li><a href="">Extra</a></li>-->
-                            </ul>';
+                            </ul>
+                            <ul class="left">
+                            <li class="has-dropdown">
+                              <a class="active" href="#">Afspraken</a>
+                              <ul class="dropdown">
+                                <li><a class="iconlink" href="'.site_url().'/afspraken/toevoegen">
+                                    <i class="step fi-plus size-21"></i>
+                                    &nbsp;&nbsp;
+                                    Toevoegen
+                                    </a>
+                                </li>                                
+                              </ul>
+                            </li>
+                            <!--<li><a href="">Extra</a></li>-->
+                        </ul>
+                            ';
         if($this->loggedIn){             
         $strHtml .= '<ul class="right">
                         <li class="has-dropdown">

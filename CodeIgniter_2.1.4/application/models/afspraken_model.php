@@ -37,21 +37,17 @@ class Afspraken_model extends CI_Model{
      * @return          string Bevat informatie over de query 
      *
      */
-    public function Toevoegen($dateDatum, $datetimeStartTijd, $datetimeEindTijd, $strOmschrijving, $strKlantID, $blnActief, $intGebruikersID) {
+    public function Toevoegen($data) {
         //insert 
         $this->load->database();        
-        try{
-            $data = array(
-                'datum' => $dateDatum,
-                'klantID' => $strKlantID,
-                'startTijd' => $datetimeStartTijd,
-                'eindTijd' => $datetimeEindTijd,
-                'omschrijving' => $strOmschrijving,
-                'actief' => $blnActief,
-                'gebruikersID' => $intGebruikersID
-            );
+        try
+        {            
             $this->db->insert('afspraken', $data); 
-            return "data succesvol toegevoegd aan afspraken.";
+            return '<br><br>
+                <div data-alert class="alert-box success radius">
+                        Uw afspraak werd vastegelegd !
+                        <a href="#" class="close">&times;</a>
+                    </div>';
         }catch (PDOException $exc) {
             return $exc->getMessage();
         }
@@ -158,70 +154,70 @@ class Afspraken_model extends CI_Model{
             $arrResultaat['modalId'] = 'afspraakEigenschappenDialog';
             $arrResultaat['modalTitle'] = date('d-m-Y', strtotime($arrGegevens['datum']));
             $arrResultaat['inhoudModal'] = '<form method="POST" >
-	<div class="row">
-		<div class="large-4 columns">
-			<h6>Datum</h6>
-		</div>
-		<div class="large-8 columns">
-			<p>'.date('d-m-Y', strtotime($arrGegevens['datum'])).'</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="large-4 columns">
-			<h6>Tijd</h6>
-		</div>
-		<div class="large-8 columns">
-			<p>'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</p>
-		</div>
-	</div>
 	<div class="row">	
 		<div class="large-4 columns">
-			<h6>Klantgegevens:</h6>
+			<p class="labelfontbold">Klantgegevens:</p>
 		</div>
                 <div class="large-8 columns">
-			<p>'.$arrGegevens['voornaam'].' '.$arrGegevens['achternaam'].'</p>
+			<p class="labelfont">'.$arrGegevens['voornaam'].' '.$arrGegevens['achternaam'].'</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-4 columns">
 		</div>
 		<div class="large-8 columns">
-			<p>'.$arrGegevens['straat'].' '.$arrGegevens['huisnummer'].'</p>
+			<p class="labelfont">'.$arrGegevens['straat'].' '.$arrGegevens['huisnummer'].'</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-4 columns">
 		</div>
 		<div class="large-8 columns">
-			<p>'.$arrGegevens['postcode'].' '.$arrGegevens['gemeente'].'</p>
+			<p class="labelfont">'.$arrGegevens['postcode'].' '.$arrGegevens['gemeente'].'</p>
+		</div>
+	</div>
+        	<div class="row">
+		<div class="large-4 columns">
+		</div>
+		<div class="large-8 columns">
+			<p class="labelfont">T: '.$arrGegevens['telefoon'].' - GSM: '.$arrGegevens['gsm'].'</p>
+		</div>
+	</div>
+        <div class="row">
+		<div class="large-4 columns">
+			<p class="labelfontbold">Datum:</p>
+		</div>
+		<div class="large-8 columns">
+			<p class="labelfont">'.date('d-m-Y', strtotime($arrGegevens['datum'])).'</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-4 columns">
+			<p class="labelfontbold">Tijd:</p>
 		</div>
 		<div class="large-8 columns">
-			<p>'.$arrGegevens['telefoon'].' '.$arrGegevens['gsm'].'</p>
+			<p class="labelfont">'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-4 columns">
-			<h6>Omschrijving</h6>
+			<p class="labelfontbold">Omschrijving:</p>
 		</div>
 		<div class="large-8 columns">
-			<p>'.$arrGegevens['omschrijving'].'</p>
+			<p class="labelfont">'.$arrGegevens['omschrijving'].'</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-4 columns">
-			<h6>Toegevoegd door</h6>
+			<p class="labelfontbold">Toegevoegd door:</p>
 		</div>
 		<div class="large-8 columns">
-			<p>'.$strGebruiker[0]['gebruikersNaam'].'</p>
+			<p class="labelfont">'.$strGebruiker[0]['gebruikersNaam'].'</p>
 		</div>
 	</div>
         <!--<div class="row">
             <div class="large-4 columns">
-                <h6>Uitvoerder</h6>
+                <p class="labelfontbold">Uitvoerder:</p>
             </div>
             <div class="large-8 columns">
                 <p></p>
@@ -246,7 +242,12 @@ class Afspraken_model extends CI_Model{
         }
         
     }
-    public function ToevoegenFormulierTonen() {
+    public function ToevoegenFormulierTonen($intKlantID,$strKlntVoornaam,$strKlantAchternaam) {
+        $this->db->select('*');
+        $this->db->from('aanmeldgegevens');
+        $query = $this->db->get();
+        
+                
         $arrResultaat = '<form method="post" name="frmAfspraakToevoegen" class="custom">
             <fieldset>
                 <legend>Afspraak Toevoegen</legend>
@@ -254,8 +255,8 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtKlantnaam">Klantnaam</label>
-                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam">
-                    <input type="hidden" name="klantID" id="hiddenKlantID">
+                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly>
+                    <input type="hidden" name="klantID" id="hiddenKlantID" value="'.$intKlantID.'">
                 </div>
             </div>
             
@@ -268,57 +269,29 @@ class Afspraken_model extends CI_Model{
             
             <div class="row">
                 <div class="large-6 columns">
-                    <label for="ddStarttijd">Starttijd</label>
-                    <select id="ddStarttijd" class="medium" name="starttijd">
-                        <option>Kies een starttijd...</option>
-                        <option>04:00</option>
-                        <option>05:00</option>
-                        <option>06:00</option>
-                        <option>07:00</option>
-                        <option>08:00</option>
-                        <option>09:00</option>
-                        <option>10:00</option>
-                        <option>11:00</option>
-                        <option>12:00</option>
-                        <option>13:00</option>
-                        <option>14:00</option>
-                        <option>15:00</option>
-                        <option>16:00</option>
-                        <option>17:00</option>
-                        <option>18:00</option>
-                        <option>19:00</option>
-                        <option>20:00</option>
-                    </select>
+                    <label for="Starttijd">Starttijd</label>
+                    <input type="text" id="Starttijd" name="starttijd" placeholder="00:00">
                 </div>
                 <div class="large-6 columns">
-                    <label for="ddEindtijd">Eindtijd</label>
-                    <select id="ddEindtijd" class="medium" name="eindtijd">
-                        <option>Kies een eindtijd...</option>
-                        <option>04:00</option>
-                        <option>05:00</option>
-                        <option>06:00</option>
-                        <option>07:00</option>
-                        <option>08:00</option>
-                        <option>09:00</option>
-                        <option>10:00</option>
-                        <option>11:00</option>
-                        <option>12:00</option>
-                        <option>13:00</option>
-                        <option>14:00</option>
-                        <option>15:00</option>
-                        <option>16:00</option>
-                        <option>17:00</option>
-                        <option>18:00</option>
-                        <option>19:00</option>
-                        <option>20:00</option>
-                    </select>
+                    <label for="Eindtijd">Eindtijd</label>
+                    <input type="text" id="Eindtijd" name="eindtijd" placeholder="00:00">
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="ddSelectUitvoerder">Uitvoerder :</label>
+                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">
+                        <option>Kies een uitvoerder</option>';
+            foreach ($query->result() as $row){ 
+                $arrResultaat .= '<option value="'.$row->gebruikersID.'">'.$row->gebruikersNaam.'</option>';     
+            }
+            $arrResultaat .='</select>
+                </div>
+            </div>
             <div class="row">
                 <div class="large-12 columns">
                     <label for="opmerking">Opmerking</label>
-                    <textarea placeholder="Beschrijving van de afspraak" id="opmerking"></textarea>
+                    <textarea placeholder="Beschrijving van de afspraak" id="opmerking" name="opmerking"></textarea>
                 </div>
             </div>
             
@@ -328,10 +301,10 @@ class Afspraken_model extends CI_Model{
                 </div>
                 <div class="large-2 columns">
                     <div class="small-12 switch tiny">
-                        <input id="nee" name="switchActief" type="radio">
+                        <input id="nee" name="switchActief" type="radio" value="0">
                         <label for="a" onclick=""> Nee</label>
 
-                        <input id="ja" name="switchActief" type="radio" checked>
+                        <input id="ja" name="switchActief" type="radio" value="1" checked>
                         <label for="a1" onclick="">Ja </label>
 
                         <span></span>

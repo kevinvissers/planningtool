@@ -37,7 +37,7 @@ class Helper_Library {
             "modalTitle" => '',
             "inhoudModal" => '',
             "script" => '',
-            "afspraak" => '<li class="size-14">geen afspraak geselecteerd</li>',
+            "afspraak" => '<li class="size-14">Geen dag geselecteerd</li>',
             "title" => 'Titel',
             "style" => '',
             "menu" => '',
@@ -46,7 +46,8 @@ class Helper_Library {
             "afspraakFormulier" => '',
             "gebruikerFormulier" => '',
             "klantenTabel" => '',
-            "detailView" =>''
+            "detailView" =>'',
+            "eigenschappen" =>'<li class="size-14">Selecteer een afspraak om hier de details te zien</li>'
         );
         return $arrData;
     }

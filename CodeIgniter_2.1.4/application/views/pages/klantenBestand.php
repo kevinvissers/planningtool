@@ -4,7 +4,7 @@
 
             <!-- Main Content -->
             <div class="large-12 columns" role="content">
-                <div><?php echo $inhoud; ?></div> 
+                <?php echo $inhoud; ?>
             </div>
             <!-- End Main Content -->
 	</div>

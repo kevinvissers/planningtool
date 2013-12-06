@@ -7,6 +7,23 @@
         Purpose of the stylesheet follows.
 */
 
+
+p.labelfont{
+	font-size: 0.875em;
+	color: #4d4d4d;
+	display: block;
+	font-weight: 500;
+	margin-bottom: 0.1875em;
+  }
+p.labelfontbold{
+	font-size: 0.875em;
+	color: #4d4d4d;
+	display: block;
+	font-weight:bold;
+	margin-bottom: 0.1875em;
+  }
+
+
 /* foundation icon size */
 a.iconlink i {color: #888;}
 /*#888*/

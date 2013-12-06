@@ -1,5 +1,11 @@
 <!-- Main Page Content and Sidebar -->
-
+        <div class="row">
+            <!-- Main Content -->
+            <div class="large-12 columns" role="content">
+                <div><?php echo $messages; ?></div> 
+            </div>
+            <!-- End Main Content -->
+	</div>
 	<div class="row">
 
             <!-- Main Content -->

@@ -25,6 +25,9 @@ class Afspraken extends CI_Controller {
         $data = $this->helper_library->Init();
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
+        
+        
+        $this->load->model('Gebruiker_model');
 
         $menuConfig = array(
             'currentController' => 'afspraken',
@@ -33,12 +36,7 @@ class Afspraken extends CI_Controller {
             'userRole' => $session_data['userrole']
         );
         
-        if(isset($_POST['nieuweAfspraakSubmit']))
-        {
-            $arrNieuweAfspraak = array(
-                'klantID' => $_POST['klantID']                
-            );
-        }
+        $resultaat = '';
         
         //library voor het tonen van hoofdmenu
         $this->load->library('Menu_Library', $menuConfig);
@@ -46,8 +44,39 @@ class Afspraken extends CI_Controller {
         $this->load->model('Afspraken_model');
         $this->load->model('Klanten_model');
         
-        $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen();
-        $data['klantenTabel'] = $this->Klanten_model->KlantenTabelTonen();
+        if(isset($_POST['nieuweAfspraakSubmit']))
+        {
+            $arrGegevens = $this->Gebruiker_model->GetGebruikerGegevens($menuConfig['user']);
+            $startDate = date_create($_POST['datum'].$_POST['starttijd']);
+            $eindDate = date_create($_POST['datum'].$_POST['eindtijd']);
+            $arrNieuweAfspraak = array(
+                'klantID' => $_POST['klantID'],
+                'startTijd' => date_format($startDate, 'Y-m-d H:i:s'),
+                'eindTijd' => date_format($eindDate, 'Y-m-d H:i:s'),
+                'omschrijving' => $_POST['opmerking'],
+                'actief' => $_POST['switchActief'],
+                'uitgevoerd' => '0',
+                'gebruikersID' => $arrGegevens['gebruikersID'],
+                'iduitvoerder' => $_POST['ddSelectUitvoerder']
+            );
+            $resultaat = $this->Afspraken_model->Toevoegen($arrNieuweAfspraak);
+        }
+        
+        
+        
+        $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen('', '', '');
+        $data['klantenTabel'] = $this->Klanten_model->SelectNaamForm();
+        $data['messages'] = $resultaat;
+        
+        if(isset($_POST['searchKlant']))
+            {
+                $data['klantenTabel'] .= $this->Klanten_model->KlantenFilterTonen($_POST['txtSelectNaam'], $_POST['ddSelectItem']);
+            }
+        
+        if(isset($_POST['Bewerken']))
+            {                
+                $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen($_POST['klant_id'], $_POST['klant_voornaam'], $_POST['klant_achternaam']);
+            }
         
         //title: titel van de webpagina
         $data['title'] = 'Afspraak toevoegen';

@@ -134,10 +134,11 @@ class Klanten extends CI_Controller {
                 );
 
                 $resultaat = $this->Klanten_model->Bewerken($arrGegevens, $arrGemeente);
-                $data['klantenTabel'] = $resultaat;
+                $data['klantenTabel'] = $resultaat;                
             }
                         
             $data['afspraakFormulier'] = $this->Klanten_model->SelectNaamForm();
+            $data['messages'] = '';
             
             if(isset($_POST['searchKlant']))
             {
@@ -181,8 +182,13 @@ class Klanten extends CI_Controller {
         if($blnPermission){
             $data['menu'] = $this->menu_library->ToonMenu();
             $data['title'] = 'Klant bewerken';
-                                    
-            $data['inhoud'] = $this->Klanten_model->AlleKlantenTonen();
+            
+            $data['inhoud'] = $this->Klanten_model->SorteerKlanten();
+            
+            if(isset($_POST['sorteerKlanten']))
+            {
+                $data['inhoud'] .= $this->Klanten_model->AlleKlantenTonen($_POST['ddSorteer']);
+            }
                                                 
             $this->load->view('templates/header', $data);
             $this->load->view('pages/klantenBestand', $data);

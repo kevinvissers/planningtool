@@ -265,8 +265,10 @@ class Klanten_model extends CI_Model {
                                     '.$row->achternaam.'&nbsp'.$row->voornaam.'
                                 </td>
                                 <td align="center">
-                                    <form form method="POST">
+                                    <form form method="POST" name="frmSelectedKlant">
                                         <input type="hidden" name="klant_id" value="'.$row->klantID.'" >
+                                        <input type="hidden" name="klant_achternaam" value="'.$row->achternaam.'" >
+                                        <input type="hidden" name="klant_voornaam" value="'.$row->voornaam.'" >
                                         <button type="submit" class="small button" name="Bewerken"><i class="step fi-pencil size-18"></i></button>
                                     </form>
                                 </td>
@@ -344,23 +346,23 @@ class Klanten_model extends CI_Model {
             <div class="row">
                 <div class="large-6 columns">
                     <label for="txtTelefoon">Telefoon</label>
-                    <input type="text" value="'.$row->telefoon.'" name="txtTelefoon" id="txtTelefoon" required />
+                    <input type="text" value="'.$row->telefoon.'" name="txtTelefoon" id="txtTelefoon" />
                 </div>
                 <div class="large-6 columns">
                     <label for="txtGsm">GSM</label>
-                    <input type="text" value="'.$row->gsm.'" name="txtGsm" id="txtGsm" required />
+                    <input type="text" value="'.$row->gsm.'" name="txtGsm" id="txtGsm" />
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtEmail">Email</label>
-                    <input type="text" value="'.$row->email.'" name="txtEmail" id="txtEmail" required />
+                    <input type="text" value="'.$row->email.'" name="txtEmail" id="txtEmail" />
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label for="txtOpmerking">Email</label>
-                    <textarea name="txtOpmerking" id="txtOpmerking" required>'.$row->opmerking.'</textarea>
+                    <label for="txtOpmerking">Opmerkingen</label>
+                    <textarea name="txtOpmerking" id="txtOpmerking">'.$row->opmerking.'</textarea>
                 </div>
             </div>
             <div class="row">
@@ -409,10 +411,32 @@ class Klanten_model extends CI_Model {
         return $strHtml;
     }
     
-    public function AlleKlantenTonen()
+    public function SorteerKlanten()
+    {
+        $strHtml = '<form method="post" class="custom">
+                        <div class="row">
+                            <div class="large-4 columns">
+                                <!--<label for="ddSorteer">Sorteren op : </label>-->
+                                <select class="large" name="ddSorteer" id="ddSorteer">
+                                    <option>Sorteren op...</option>
+                                    <option value="achternaam">Achternaam</option>
+                                    <option value="voornaam">Voornaam</option>
+                                </select>
+                                
+                            </div>
+                            <div class="large-8 columns">
+                                <button type="submit" class="small button" name="sorteerKlanten">GO!</button>
+                            </div>
+                        </div>
+                    </form>';
+        return $strHtml;
+    }
+    
+    public function AlleKlantenTonen($strOrderByValue)
     {
         $this->db->select('*'); 
         $this->db->from('klanten');
+        $this->db->order_by($strOrderByValue,"asc");
         
         $query = $this->db->get();
         

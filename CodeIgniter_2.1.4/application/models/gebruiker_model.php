@@ -197,6 +197,23 @@ class Gebruiker_model extends CI_Model {
         //$strNieuwWachtwoord = substr(str_shuffle( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" ), 0, 1).substr( md5( time() ), 1);
         return $strNieuwWachtwoord;
     }
+    public function GetGebruikerGegevens($strGebruikersnaam)
+    {
+        $this->db->select('*');
+        $this->db->from('aanmeldgegevens');
+        $this->db->where('gebruikersNaam', $strGebruikersnaam);
+        $query = $this->db->get();
+        
+        foreach ($query->result() as $row){
+            $arrGegevens = array(
+                'gebruikersID' => $row->gebruikersID,
+                'functieID' => $row->idfunctie
+            );
+        }
+        
+        return $arrGegevens;
+    }
+
     private function MailNieuwWachtwoord($strGebruikersNaam, $strNieuwWachtwoord){
 
     }
