@@ -25,8 +25,9 @@ class Gebruiker extends CI_Controller{
 	}
         $this->load->library('Helper_Library');
         $data = $this->helper_library->Init();
-        $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
+        $blnPermission = ($this->session->userdata('logged_in')&&($session_data['userrole']>2)) ? true : false;
+        
         
         $menuConfig = array(
             'currentController' => 'gebruiker',
@@ -67,8 +68,8 @@ class Gebruiker extends CI_Controller{
 	}
         $this->load->library('Helper_Library');
         $data = $this->helper_library->Init();
-        $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
+        $blnPermission = ($this->session->userdata('logged_in')&&($session_data['userrole']>2)) ? true : false;
         
         $menuConfig = array(
             'currentController' => 'gebruiker',
@@ -119,8 +120,8 @@ class Gebruiker extends CI_Controller{
 	}
         $this->load->library('Helper_Library');
         $data = $this->helper_library->Init();
-        $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
+        $blnPermission = ($this->session->userdata('logged_in')&&($session_data['userrole']>2)) ? true : false;
         
         $menuConfig = array(
             'currentController' => 'gebruiker',

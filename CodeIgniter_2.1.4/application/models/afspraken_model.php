@@ -122,7 +122,12 @@ class Afspraken_model extends CI_Model{
         $this->load->database(); 
         try{
             $query = $this->db->query('SELECT * FROM afspraken WHERE ID='.$intID.' ORDER BY startTijd');
-
+            $this->db->select('*');
+            $this->db->from('afspraken');
+            $this->db->where('ID', $intID);
+            
+            $query = $this->db->get();
+            
             $resultaat = $query->result();
             return $resultaat;
         }catch(PDOException $exc){
@@ -139,76 +144,100 @@ class Afspraken_model extends CI_Model{
             $this->db->from('aanmeldgegevens');
             $this->db->where('gebruikersID', $arrGegevens['gebruikersID']);
             $objGebruiker = $this->db->get();
-            
+
             $strGebruiker = $objGebruiker->result_array();
+            
+            /*$this->db->select('*')->from('aanmeldgegevens')->where('gebruikersID', 3);
+            $objUitvoerder = $this->db->get();
+            
+            $strUitvoerder = $objGebruiker->result_array();
+            
+            print_r($strUitvoerder);*/
             
             $arrResultaat = array();
             $arrResultaat['modalId'] = 'afspraakEigenschappenDialog';
             $arrResultaat['modalTitle'] = date('d-m-Y', strtotime($arrGegevens['datum']));
-            $arrResultaat['inhoudModal'] = '<form method="post">
-            <table>
-                <tr>
-                    <td>Tijd:</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Klantgegevens:</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['voornaam'].'</td>
-                    <td>'.$arrGegevens['achternaam'].'</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['straat'].'</td>
-                    <td>'.$arrGegevens['huisnummer'].'</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['postcode'].'</td>
-                    <td>'.$arrGegevens['gemeente'].'</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['telefoon'].'</td>
-                    <td>'.$arrGegevens['gsm'].'</td>
-                </tr>
-                <tr>
-                    <td>Omschrijving:</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$arrGegevens['omschrijving'].'</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Toegevoegd door:</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>'.$strGebruiker[0]['gebruikersNaam'].'</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" class="small button" name="wijzigen" value="Wijzigen" id="wijzigen" /></td>
-                    <td><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></td>
-                    <td><input type="submit" class="small button" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></td>
-                </tr>
-            </table>
-            </form>';
+            $arrResultaat['inhoudModal'] = '<form method="POST" >
+	<div class="row">
+		<div class="large-4 columns">
+			<h6>Datum</h6>
+		</div>
+		<div class="large-8 columns">
+			<p>'.date('d-m-Y', strtotime($arrGegevens['datum'])).'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+			<h6>Tijd</h6>
+		</div>
+		<div class="large-8 columns">
+			<p>'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</p>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="large-4 columns">
+			<h6>Klantgegevens:</h6>
+		</div>
+                <div class="large-8 columns">
+			<p>'.$arrGegevens['voornaam'].' '.$arrGegevens['achternaam'].'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+		</div>
+		<div class="large-8 columns">
+			<p>'.$arrGegevens['straat'].' '.$arrGegevens['huisnummer'].'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+		</div>
+		<div class="large-8 columns">
+			<p>'.$arrGegevens['postcode'].' '.$arrGegevens['gemeente'].'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+		</div>
+		<div class="large-8 columns">
+			<p>'.$arrGegevens['telefoon'].' '.$arrGegevens['gsm'].'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+			<h6>Omschrijving</h6>
+		</div>
+		<div class="large-8 columns">
+			<p>'.$arrGegevens['omschrijving'].'</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-4 columns">
+			<h6>Toegevoegd door</h6>
+		</div>
+		<div class="large-8 columns">
+			<p>'.$strGebruiker[0]['gebruikersNaam'].'</p>
+		</div>
+	</div>
+        <!--<div class="row">
+            <div class="large-4 columns">
+                <h6>Uitvoerder</h6>
+            </div>
+            <div class="large-8 columns">
+                <p></p>
+            </div>-->
+	<div class="row">
+		<div class="large-4 columns">
+			<h6><input type="submit" class="small button" name="wijzigen" value="Wijzigen" id="wijzigen" /></h6>
+		</div>
+		<div class="large-4 columns">
+			<h6><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></h6>
+		</div>
+		<div class="large-4 columns">
+			<h6><input type="submit" class="small button" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></h6>
+		</div>
+	</div>
+</form>';
         
             return $arrResultaat;
         
@@ -354,6 +383,7 @@ class Afspraken_model extends CI_Model{
             $gegevens['omschrijving'] = $row->omschrijving;
             $gegevens['actief'] = $row->actief;
             $gegevens['gebruikersID'] = $row->gebruikersID;
+            $gegevens['iduitvoerder'] = $row->iduitvoerder;
         }
 
         $timestamp = strtotime($row->startTijd);

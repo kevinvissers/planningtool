@@ -30,7 +30,7 @@ class Klanten extends CI_Controller {
             'currentController' => 'afspraken',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         //library voor het tonen van hoofdmenu
@@ -101,7 +101,7 @@ class Klanten extends CI_Controller {
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);
@@ -158,7 +158,7 @@ class Klanten extends CI_Controller {
     
     public function Tonen()
     {
-        if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
+        if ( ! file_exists('application/views/pages/klantenBestand.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
@@ -172,7 +172,7 @@ class Klanten extends CI_Controller {
             'currentController' => 'gebruiker',
             'loggedIn' => $blnPermission,
             'user' => $session_data['username'],
-            'userRole' => 3
+            'userRole' => $session_data['userrole']
         );
         
         $this->load->library('Menu_Library', $menuConfig);

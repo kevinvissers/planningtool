@@ -66,20 +66,7 @@ class Kalender extends CI_Controller {
         if(((isset($_GET['dag']))&&(isset($_GET['id']))&&(isset($_GET['modal'])))){
             //gegevens ophalen voor eigenschappenDialog (inhoud, title, id)
             $eigenschappenDialog = $this->Afspraken_model->EigenschappenTonen($_GET['modal']);
-            // id voor jQuery toewijzen
-            $data['modalId'] = $eigenschappenDialog['modalId'];
-            // datum toewijzen aan titel
-            $data['modalTitle'] = $eigenschappenDialog['modalTitle'];
-            // inhoud toewijzen
-            $data['inhoudModal'] = $eigenschappenDialog['inhoudModal'];
-            // dialog openen
-            $data['script'] = '$(function() {
-                $( "#afspraakEigenschappenDialog" ).dialog({
-                    autoOpen: true,
-                    width: "auto",
-                    modal:true
-                });
-            });';
+            $data['eigenschappen'] = $eigenschappenDialog['inhoudModal'];
         }
         //kijken of er een dag wordt geselecteerd
         if((isset($_GET['dag']))&&(isset($_GET['id']))){
@@ -95,6 +82,7 @@ class Kalender extends CI_Controller {
         $this->db->select('*');
         $this->db->like('startTijd', $jaar."-".$maand);
         $this->db->from('afspraken');
+        $this->db->order_by('startTijd', "asc");
         $arrIets = $this->db->get();
         
         foreach ($arrIets->result() as $value) {
@@ -116,10 +104,6 @@ class Kalender extends CI_Controller {
             //header laden
             $this->load->view('templates/header', $data);
             $this->load->view('pages/maandOverzicht', $data);
-            //dialog laden, als dit nodig is
-            if(isset($_GET['modal'])){
-                $this->load->view('templates/emptyModal');
-            }
             //footer laden
            $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);
