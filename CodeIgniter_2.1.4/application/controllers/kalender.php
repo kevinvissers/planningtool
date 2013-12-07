@@ -101,6 +101,9 @@ class Kalender extends CI_Controller {
         //kalender: bevat de kalender
         $data['kalender'] = $this->calendar->generate($jaar,$maand, $inhoud);
         if($blnPermission){
+            if(isset($_POST['werkbon'])){
+                header('Location: '.site_url().'/werkbon/index');
+            }
             //header laden
             $this->load->view('templates/header', $data);
             $this->load->view('pages/maandOverzicht', $data);

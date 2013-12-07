@@ -47,7 +47,8 @@ class Helper_Library {
             "gebruikerFormulier" => '',
             "klantenTabel" => '',
             "detailView" =>'',
-            "eigenschappen" =>'<li class="size-14">Selecteer een afspraak om hier de details te zien</li>'
+            "eigenschappen" =>'<li class="size-14">Selecteer een afspraak om hier de details te zien</li>',
+            "messages" => ''
         );
         return $arrData;
     }

@@ -136,11 +136,11 @@ class Menu_Library {
 					'.$this->user.'
 					</a>
 					<ul class="dropdown">
-                                                <li><a class="iconlink" href="">
+                                                <!--<li><a class="iconlink" href="">
 							<i class="step fi-torso size-21"></i>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;<span>Profiel</span>
                                                     </a>
-                                                </li>
+                                                </li>-->
 						<li><a class="iconlink" href="'.site_url().'/gebruiker/wachtwoordWijzigen">
 							<i class="step fi-pencil size-21"></i>
                                                         &nbsp;&nbsp;&nbsp;Bewerken
@@ -158,7 +158,7 @@ class Menu_Library {
         }
         $strHtml .= '</section>
                 </nav>
-		  <h1>Planningtool <small>Here you can plan everything!</small></h1>
+		  <h1>Planningtool <small>'.date('l j F Y').'</small></h1>
 		  <hr />
 		</div>
 		</div>

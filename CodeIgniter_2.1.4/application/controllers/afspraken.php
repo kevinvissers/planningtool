@@ -63,7 +63,6 @@ class Afspraken extends CI_Controller {
         }
         
         
-        
         $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen('', '', '');
         $data['klantenTabel'] = $this->Klanten_model->SelectNaamForm();
         $data['messages'] = $resultaat;

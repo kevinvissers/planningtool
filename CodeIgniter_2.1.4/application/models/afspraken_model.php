@@ -223,14 +223,17 @@ class Afspraken_model extends CI_Model{
                 <p></p>
             </div>-->
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-3 columns">
 			<h6><input type="submit" class="small button" name="wijzigen" value="Wijzigen" id="wijzigen" /></h6>
 		</div>
-		<div class="large-4 columns">
+		<div class="large-3 columns">
 			<h6><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></h6>
 		</div>
-		<div class="large-4 columns">
+		<div class="large-3 columns">
 			<h6><input type="submit" class="small button" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></h6>
+		</div>
+                <div class="large-3 columns">
+			<h6><input type="submit" class="small button" name="werkbon" value="Werkbon" id="werkbon" /></h6>
 		</div>
 	</div>
 </form>';
@@ -255,7 +258,7 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtKlantnaam">Klantnaam</label>
-                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly>
+                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly required>
                     <input type="hidden" name="klantID" id="hiddenKlantID" value="'.$intKlantID.'">
                 </div>
             </div>
@@ -263,18 +266,18 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="datepicker">Datum</label>
-                    <input type="text" id="datepicker" name="datum" placeholder="Datum">
+                    <input type="text" id="datepicker" name="datum" placeholder="Datum" required>
                 </div>
             </div>
             
             <div class="row">
                 <div class="large-6 columns">
                     <label for="Starttijd">Starttijd</label>
-                    <input type="text" id="Starttijd" name="starttijd" placeholder="00:00">
+                    <input type="text" id="Starttijd" name="starttijd" placeholder="00:00" required>
                 </div>
                 <div class="large-6 columns">
                     <label for="Eindtijd">Eindtijd</label>
-                    <input type="text" id="Eindtijd" name="eindtijd" placeholder="00:00">
+                    <input type="text" id="Eindtijd" name="eindtijd" placeholder="00:00" required>
                 </div>
             </div>
             <div class="row">
