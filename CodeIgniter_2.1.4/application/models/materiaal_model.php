@@ -44,6 +44,16 @@ class Materiaal_model extends CI_Model {
                         <div class="large-4 columns">'.$row->eenheid.'</div>';
             $strHTML .= '</div>';
         }
+        $strHTML .= '<div class="row">
+                        <div class="large-12 columns">
+                            <hr>
+                        </div>
+                    </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <a href="'.site_url().'/materialen/toevoegen/'.$intAfspraakID.'">Toevoegen</a>
+                </div>
+            </div>';
         return $strHTML;
     }
     public function ToevoegFormulier($intAfspraakID){

@@ -16,7 +16,7 @@
  */
 class Afspraken extends CI_Controller {
     public function toevoegen(){
-        if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
+        if ( ! file_exists('application/views/pages/row1row2.php'))
 	{
             show_404();
 	}
@@ -90,7 +90,7 @@ class Afspraken extends CI_Controller {
             //header laden
             $this->load->view('templates/header', $data);
             //inhoud laden
-            $this->load->view('pages/afspraakFormulier', $data);
+            $this->load->view('pages/row1row2', $data);
             //footer laden
             $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);

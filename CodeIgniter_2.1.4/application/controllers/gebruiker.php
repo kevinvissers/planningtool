@@ -61,7 +61,7 @@ class Gebruiker extends CI_Controller{
         }  
     }
     public function Bewerken(){
-        if ( ! file_exists('application/views/pages/afspraakFormulier.php'))
+        if ( ! file_exists('application/views/pages/row1row2.php'))
 	{
 		// Whoops, we don't have a page for that!
 		show_404();
@@ -105,7 +105,7 @@ class Gebruiker extends CI_Controller{
             $data['afspraakFormulier'] = $this->Gebruiker_model->AlleGebruikersTonen();
             
             $this->load->view('templates/header', $data);
-            $this->load->view('pages/afspraakFormulier', $data);
+            $this->load->view('pages/row1row2', $data);
             $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);          
         }else{
@@ -145,7 +145,7 @@ class Gebruiker extends CI_Controller{
             header('Location: '.site_url().'/login');
         }
     }
-    public function Code(){
+    /*public function Code(){
         $this->load->library('encrypt');
         $this->load->model('Gebruiker_model');
         $strHTML = '<form method="POST">
@@ -164,8 +164,8 @@ class Gebruiker extends CI_Controller{
             $strHTML = '<a href="http://localhost/CodeIgniter_2.1.4/index.php/gebruiker/reset/'.$url.'">Klik hier om een nieuw wachtwoord in te stellen</a>';
         }
         echo $strHTML;
-    }
-    public function Reset($code=null){
+    }*/
+    /*public function Reset($code=null){
         if($code != null){
             $key = $this->config->item('encryption_key');
             $this->load->library('encrypt');
@@ -196,7 +196,7 @@ class Gebruiker extends CI_Controller{
         }else{
             echo "Verkeerd gebruik van functie.";
         }
-    }
+    }*/
     
     public function wachtwoordWijzigen(){
         if ( ! file_exists('application/views/pages/gebruikerFormulier.php'))

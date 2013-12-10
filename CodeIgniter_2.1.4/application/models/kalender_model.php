@@ -40,10 +40,10 @@ class Kalender_model extends CI_Model{
             {cal_cell_start}<td align="center">{/cal_cell_start}
 
             {cal_cell_content}<a href="{content}"><div class="afspraak">{day}</div></a>{/cal_cell_content}
-            {cal_cell_content_today}<div class="highlight"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
+            {cal_cell_content_today}<div class="highlight red"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
 
             {cal_cell_no_content}<div>{day}</div>{/cal_cell_no_content}
-            {cal_cell_no_content_today}<div class="highlight">{day}</div>{/cal_cell_no_content_today}
+            {cal_cell_no_content_today}<div class="highlight red">{day}</div>{/cal_cell_no_content_today}
 
             {cal_cell_blank}&nbsp;{/cal_cell_blank}
 

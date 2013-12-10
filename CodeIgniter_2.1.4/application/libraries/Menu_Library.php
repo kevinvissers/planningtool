@@ -65,7 +65,7 @@ class Menu_Library {
                               <ul class="dropdown">
                                 <li><label>Kalenders</label></li>
                                 <li><a href="'.site_url().'/kalender/maandOverzicht">Maandoverzicht</a></li>
-                                <li><a href="'.site_url().'/kalender/weekOverzicht">Weekoverzicht</a></li>
+                                <!--<li><a href="'.site_url().'/kalender/weekOverzicht">Weekoverzicht</a></li>-->
                                 <!--<li><a href="'.site_url().'/kalender/dagOverzicht">dagoverzicht</a></li>-->
                               </ul>
                             </li>

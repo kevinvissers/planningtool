@@ -188,13 +188,7 @@ class Gebruiker_model extends CI_Model {
         return $strHTML;
     }
     public function GenereerNieuwWachtwoord(){
-        //$this->load->library('encrypt');
-        //$msg = "kevin";
-        //$strNieuwWachtwoord = $this->encrypt->encode($msg);
         $strNieuwWachtwoord = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&@#"),0,8);
-        //$strNieuwWachtwoord = md5(uniqid(rand(), true));
-        //$strNieuwWachtwoord = uniqid(rand(7,10), true);
-        //$strNieuwWachtwoord = substr(str_shuffle( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" ), 0, 1).substr( md5( time() ), 1);
         return $strNieuwWachtwoord;
     }
     public function GetGebruikerGegevens($strGebruikersnaam)
@@ -212,13 +206,6 @@ class Gebruiker_model extends CI_Model {
         }
         
         return $arrGegevens;
-    }
-
-    private function MailNieuwWachtwoord($strGebruikersNaam, $strNieuwWachtwoord){
-
-    }
-    private function VergetenWachtwoordWijzigen($strGebruikersNaam, $strNieuwWachtoord){
-        
     }
     /**
  * @access	public

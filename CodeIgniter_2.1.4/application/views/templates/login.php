@@ -11,9 +11,9 @@
                 <td><label for="wachtw">Wachtwoord</label></td>
                 <td><input type="password" size="20" id="password" name="password" required /></td>
             </tr>
-            <tr>
-                <td><a href="<?php echo site_url() ?>/gebruiker/code">wachtwoord vergeten?</a></td>
-            </tr>
+            <!--<tr>
+                <td><a href="<?php //echo site_url() ?>/gebruiker/code">wachtwoord vergeten?</a></td>
+            </tr>-->
             <!--<tr>
                 <td><label for="domein">Aanmelden op</label></td>
                 <td>

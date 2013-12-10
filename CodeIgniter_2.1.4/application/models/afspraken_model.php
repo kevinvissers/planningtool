@@ -154,6 +154,7 @@ class Afspraken_model extends CI_Model{
             $arrResultaat['modalId'] = 'afspraakEigenschappenDialog';
             $arrResultaat['modalTitle'] = date('d-m-Y', strtotime($arrGegevens['datum']));
             $arrResultaat['inhoudModal'] = '<form method="POST" >
+                <input type="hidden" name="id" value="'.$intID.'" />
 	<div class="row">	
 		<div class="large-4 columns">
 			<p class="labelfontbold">Klantgegevens:</p>
@@ -230,10 +231,10 @@ class Afspraken_model extends CI_Model{
 			<h6><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></h6>
 		</div>
 		<div class="large-3 columns">
-			<h6><input type="submit" class="small button" name="materiaallijst" value="Materiaallijst" id="materiaallijst" /></h6>
+			<h6><a href="'.site_url().'/materialen/tonen/'.$intID.'">Materiaallijst...</a></h6>
 		</div>
                 <div class="large-3 columns">
-			<h6><input type="submit" class="small button" name="werkbon" value="Werkbon" id="werkbon" /></h6>
+			<h6><a href="'.site_url().'/werkbon/index/'.$intID.'" target="_blank">Werkbon</a></h6>
 		</div>
 	</div>
 </form>';
@@ -282,7 +283,7 @@ class Afspraken_model extends CI_Model{
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label for="ddSelectUitvoerder">Uitvoerder :</label>
+                    <label for="ddSelectUitvoerder">Uitvoerder</label>
                     <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">
                         <option>Kies een uitvoerder</option>';
             foreach ($query->result() as $row){ 
@@ -293,8 +294,8 @@ class Afspraken_model extends CI_Model{
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label for="opmerking">Opmerking</label>
-                    <textarea placeholder="Beschrijving van de afspraak" id="opmerking" name="opmerking"></textarea>
+                    <label for="opmerking">Omschrijving</label>
+                    <textarea placeholder="Omschrijving van de afspraak" id="opmerking" name="opmerking"></textarea>
                 </div>
             </div>
             
@@ -325,9 +326,9 @@ class Afspraken_model extends CI_Model{
                 <div class="large-6 columns">
                     <button type="submit" class="small button" name="nieuweAfspraakSubmit">Opslaan</button>
                 </div>
-                <div class="large-6 columns" align="right">
+                <!--<div class="large-6 columns" align="right">
                     <a href="#" class="small button" name="btnMateriaalToevoegen">Materiaal toevoegen...</a>
-                </div>
+                </div>-->
             </div>
             
             </fieldset>
