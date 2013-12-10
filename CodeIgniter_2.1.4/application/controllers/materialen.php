@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 class materialen extends CI_Controller {
-    public function Tonen(){
+    public function Tonen($intAfspraakId){
         if ( ! file_exists('application/views/pages/klantenBestand.php'))
 	{
 		// Whoops, we don't have a page for that!
@@ -28,9 +28,9 @@ class materialen extends CI_Controller {
         
         if($blnPermission){
             $data['menu'] = $this->menu_library->ToonMenu();
-            $data['title'] = 'Klant bewerken';
+            $data['title'] = 'Materiaallijst tonen';
             
-            $data['inhoud'] = $this->Materiaal_model->Tonen(1);
+            $data['inhoud'] = $this->Materiaal_model->Tonen($intAfspraakId);
                                                 
             $this->load->view('templates/header', $data);
             $this->load->view('pages/klantenBestand', $data);
@@ -39,7 +39,6 @@ class materialen extends CI_Controller {
         }
         else
         {
-            //redirect('login', 'refresh');
             header('Location: '.site_url().'/login');
         }
     }
@@ -66,7 +65,7 @@ class materialen extends CI_Controller {
         
         if($blnPermission){
             $data['menu'] = $this->menu_library->ToonMenu();
-            $data['title'] = 'Klant bewerken';
+            $data['title'] = 'Materiaal toevoegen';
             $data['inhoud'] = $this->Materiaal_model->ToevoegFormulier($intAfspraakId);
             
             if(isset($_POST['materiaalToevoegen'])){
