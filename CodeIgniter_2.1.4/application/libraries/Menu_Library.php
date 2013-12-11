@@ -41,25 +41,27 @@ class Menu_Library {
      * @return          string Geeft een string terug met de html-code van het hoofdmenu
      *
      */
-    public function ToonMenu()
-    {
+    public function ToonMenu(){
         $strHtml = '<!-- Nav Bar -->
-
 		<div class="row">
 		<div class="large-12 columns">
 		  <nav class="top-bar">
                     <ul class="title-area">
-
                         <!-- Title Area -->
                         <li class="name">
                             <h1>
                                 <a href="'.site_url().'">Planningtool</a>
                             </h1>
                         </li>
-                        <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+                        <li class="toggle-topbar menu-icon">
+                            <a href="#">
+                                <span>menu</span>
+                            </a>
+                        </li>
                     </ul>					 
-                    <section class="top-bar-section">
-                        <ul class="left">
+                    <section class="top-bar-section">';
+        if($this->userRole > 0){
+        $strHtml .= '<ul class="left">
                             <li class="has-dropdown">
                               <a class="active" href="#">Kalenderweergaven</a>
                               <ul class="dropdown">
@@ -71,8 +73,9 @@ class Menu_Library {
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
                         </ul>';
-                        if($this->userRole == 3){
-                        $strHtml .= '<ul class="left">
+        }
+        if($this->userRole == 3){
+            $strHtml .= '<ul class="left">
                             <li class="has-dropdown">
                               <a class="active" href="#">Gebruikers</a>
                               <ul class="dropdown">
@@ -92,8 +95,9 @@ class Menu_Library {
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
                         </ul>';
-                        }
-                        $strHtml .= '<ul class="left">
+        }
+        if($this->userRole > 0){
+            $strHtml .= '<ul class="left">
                                 <li class="has-dropdown">
                                   <a class="active" href="#">Klanten</a>
                                   <ul class="dropdown">
@@ -113,8 +117,10 @@ class Menu_Library {
                                   </ul>
                                 </li>
                                 <!--<li><a href="">Extra</a></li>-->
-                            </ul>
-                            <ul class="left">
+                            </ul>';
+        }
+        if($this->userRole > 0){
+            $strHtml .= '<ul class="left">
                             <li class="has-dropdown">
                               <a class="active" href="#">Afspraken</a>
                               <ul class="dropdown">
@@ -127,8 +133,8 @@ class Menu_Library {
                               </ul>
                             </li>
                             <!--<li><a href="">Extra</a></li>-->
-                        </ul>
-                            ';
+                        </ul>';
+        }
         if($this->loggedIn){             
         $strHtml .= '<ul class="right">
                         <li class="has-dropdown">

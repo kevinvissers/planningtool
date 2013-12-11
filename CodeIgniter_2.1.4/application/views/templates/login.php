@@ -1,16 +1,27 @@
 <div id="dialog" title="Aanmelden">
-    <!--<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>-->
+    <?php $attributes = array('class' => 'custom'); ?>
     <?php echo validation_errors(); ?>
-    <?php echo form_open('verifylogin'); ?>
-        <table>
-            <tr>
-                <td><label for="gebruiker">Gebruikersnaam</label></td>
-                <td><input type="email" size="20" id="username" name="username" required /></td>
-            </tr>
-            <tr>
-                <td><label for="wachtw">Wachtwoord</label></td>
-                <td><input type="password" size="20" id="password" name="password" required /></td>
-            </tr>
+    <?php echo form_open('verifylogin', $attributes); ?>
+        <div class="row">
+            <div class="large-12 columns">
+                <label for="gebruiker">Gebruikersnaam</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <input type="email" size="20" id="username" name="username" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label for="wachtw">Wachtwoord</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <input type="password" size="20" id="password" name="password" required />
+            </div>
+        </div>
             <!--<tr>
                 <td><a href="<?php //echo site_url() ?>/gebruiker/code">wachtwoord vergeten?</a></td>
             </tr>-->
@@ -23,10 +34,13 @@
                     </select>
                 </td>
             </tr>-->
-            <tr>
-                <td><input type="submit" value="Aanmelden" name="frmLogOn" /></td>
-                <td><input type="button" name="cancel" value="Cancel" id="cancel" onclick="window.close();" /></td>
-            </tr>
-        </table>
+            <div class="row">
+		<div class="large-6 columns">
+                    <input type="submit" value="Aanmelden" name="frmLogOn" class="small button" />
+                </div>
+                <div class="large-6 columns">
+                    <input type="button" name="cancel" value="Cancel" id="cancel" class="small button" onclick="window.close();" />
+                </div>
+            </div> 
     </form>
 </div>
