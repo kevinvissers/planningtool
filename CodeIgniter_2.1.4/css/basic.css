@@ -79,9 +79,11 @@ table{
 .has-button {
     /*background-color: black;*/
 }
+div.red {
+    color:red;
+}
 .red > a{
     color:red;
-    /*background-color: red;*/
     text-decoration: underline;
 }
 /* weekKalender */
