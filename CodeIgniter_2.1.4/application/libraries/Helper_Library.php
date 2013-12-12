@@ -18,11 +18,9 @@ class Helper_Library {
         $this->CI = get_instance();
     }
     public function CreateFooter(){
-        $this->CI->load->library('user_agent');
-        $strUser = (getenv("username") == null ? $this->input->ip_address() : getenv("username"));
         if ($this->CI->agent->is_browser()){
             //$agent = $this->agent->browser().' '.$this->agent->version();
-            $strFooter = '<i class="fi-monitor size-12">&nbsp;&nbsp;'.$this->CI->agent->browser().' - '.$strUser.'</i>';
+            $strFooter = '<i class="fi-monitor size-12">&nbsp;&nbsp;'.$this->CI->agent->browser().'</i>';
         }elseif ($this->CI->agent->is_mobile()){
             //$agent = $this->agent->mobile();
             $strFooter = '<i class="fi-mobile size-12">&nbsp;&nbsp;'.$this->CI->agent->mobile().'</i>';
