@@ -67,19 +67,11 @@ class Afspraken_model extends CI_Model{
      * @return          string Bevat informatie over de query 
      *
      */
-    public function Bewerken($intID, $dateDatum, $datetimeStartTijd, $datetimeEindTijd, $strOmschrijving, $strKlantID, $blnActief, $intGebruikersID) {
+    public function Bewerken($intID, $data) {
         //update 
         $this->load->database(); 
-        try{
-            $data = array(
-                    'datum' => $dateDatum,
-                    'klantID' => $strKlantID,
-                    'startTijd' => $datetimeStartTijd,
-                    'eindTijd' => $datetimeEindTijd,
-                    'omschrijving' => $strOmschrijving,
-                    'actief' => $blnActief,
-                    'gebruikersID' => $intGebruikersID
-                );
+        try
+        {
             $this->db->where('ID', $intID);
             $this->db->update('afspraken', $data); 
             return "data succesvol bijgewerkt.";
@@ -225,7 +217,7 @@ class Afspraken_model extends CI_Model{
             </div>-->
 	<div class="row">
 		<div class="large-3 columns">
-			<h6><input type="submit" class="small button" name="wijzigen" value="Wijzigen" id="wijzigen" /></h6>
+			<a class="small button" href="'.site_url().'/afspraken/bewerken?id='.$intID.'">Wijzigen</a>
 		</div>
 		<div class="large-3 columns">
 			<h6><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></h6>
@@ -283,7 +275,7 @@ class Afspraken_model extends CI_Model{
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label for="ddSelectUitvoerder">Uitvoerder</label>
+                    <label for="ddSelectUitvoerder">Uitvoerder :</label>
                     <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">
                         <option>Kies een uitvoerder</option>';
             foreach ($query->result() as $row){ 
@@ -294,8 +286,8 @@ class Afspraken_model extends CI_Model{
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label for="opmerking">Omschrijving</label>
-                    <textarea placeholder="Omschrijving van de afspraak" id="opmerking" name="opmerking"></textarea>
+                    <label for="opmerking">Opmerking</label>
+                    <textarea placeholder="Beschrijving van de afspraak" id="opmerking" name="opmerking"></textarea>
                 </div>
             </div>
             
@@ -326,9 +318,9 @@ class Afspraken_model extends CI_Model{
                 <div class="large-6 columns">
                     <button type="submit" class="small button" name="nieuweAfspraakSubmit">Opslaan</button>
                 </div>
-                <!--<div class="large-6 columns" align="right">
+                <div class="large-6 columns" align="right">
                     <a href="#" class="small button" name="btnMateriaalToevoegen">Materiaal toevoegen...</a>
-                </div>-->
+                </div>
             </div>
             
             </fieldset>
@@ -390,6 +382,124 @@ class Afspraken_model extends CI_Model{
             $gegevens['opmerking'] = $row->opmerking;
         }
         return $gegevens;
+    }
+    
+    public function BewerkFormulier($intAfspraakID){
+        $arrAfspraakEigenschappen = $this->allegegevens($intAfspraakID);
+        
+        $startDate = date_create($arrAfspraakEigenschappen['datum']);
+        
+        //alle gebruikers selecteren die niet als huidige uitvoerder zijn aangeduid
+        $this->db->select('*');
+        $this->db->from('aanmeldgegevens');
+        $this->db->where_not_in('gebruikersID', $arrAfspraakEigenschappen['iduitvoerder']);
+        $query = $this->db->get();
+        
+        //uitvoerder selecteren
+        $this->db->select('*');
+        $this->db->from('aanmeldgegevens');
+        $this->db->where('gebruikersID', $arrAfspraakEigenschappen['iduitvoerder']);
+        $currentUser = $this->db->get();
+        
+                
+        $strHtml = '<form method="post" name="frmAfspraakToevoegen" class="custom">
+            <fieldset>
+                <legend>Afspraak bewerken</legend>  
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="txtKlantnaam">Klantnaam</label>
+                    <input type="hidden" name="klantID" id="hiddenKlantID" value="'.$arrAfspraakEigenschappen['klantID'].'">
+                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$arrAfspraakEigenschappen['achternaam'].' '.$arrAfspraakEigenschappen['voornaam'].'" readonly required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="datepicker">Datum</label>
+                    <input type="text" id="datepicker" name="datum" placeholder="Datum" value="'.date_format($startDate, 'm/d/Y').'" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-6 columns">
+                    <label for="Starttijd">Starttijd</label>
+                    <input type="text" id="Starttijd" name="starttijd" placeholder="00:00" value="'.$arrAfspraakEigenschappen['startTijd'].'" required>
+                </div>
+                <div class="large-6 columns">
+                    <label for="Eindtijd">Eindtijd</label>
+                    <input type="text" id="Eindtijd" name="eindtijd" placeholder="00:00" value="'.$arrAfspraakEigenschappen['eindTijd'].'" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="ddSelectUitvoerder">Uitvoerder :</label>
+                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">';
+            foreach ($currentUser->result() as $rij){ 
+                $strHtml .='
+                <option value="'.$rij->gebruikersID.'">'.$rij->gebruikersNaam.'</option>';
+            }
+            foreach ($query->result() as $row){ 
+                $strHtml .= '<option value="'.$row->gebruikersID.'">'.$row->gebruikersNaam.'</option>';
+            }
+            $strHtml .='</select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label for="opmerking">Opmerking</label>
+                    <textarea placeholder="Beschrijving van de afspraak" id="opmerking" name="opmerking">'.$arrAfspraakEigenschappen['omschrijving'].'</textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="large-10 columns">
+                    <label for=""switchActief>Afspraak actief :</label>
+                </div>
+                <div class="large-2 columns">';
+                    if ($arrAfspraakEigenschappen['actief'] == '1')
+                    {
+                        $strHtml .='<div class="small-12 switch tiny">
+                        <input id="nee" name="switchActief" type="radio" value="0">
+                        <label for="a" onclick=""> Nee</label>
+
+                        <input id="ja" name="switchActief" type="radio" value="1" checked>
+                        <label for="a1" onclick="">Ja </label>
+
+                        <span></span>
+                      </div>';
+                    }
+                    else
+                    {
+                        $strHtml .='<div class="small-12 switch tiny">
+                        <input id="nee" name="switchActief" type="radio" value="0" checked>
+                        <label for="a" onclick=""> Nee</label>
+
+                        <input id="ja" name="switchActief" type="radio" value="1">
+                        <label for="a1" onclick="">Ja </label>
+
+                        <span></span>
+                      </div>';
+                    }
+                    
+                $strHtml .='</div>
+            </div>
+            
+            <div class="row">
+                <div class="large-12 columns">
+                    <hr>
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <button type="submit" class="small button" name="bewerkAfspraakSubmit">Opslaan</button>
+                </div>
+            </div>
+            
+            </fieldset>
+            </form>';
+        
+        return $strHtml;
     }
             
 }
