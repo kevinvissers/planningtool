@@ -191,7 +191,7 @@ class Kalender extends CI_Controller {
             header('Location: '.site_url().'/login');
         }
     }
-      public function dagOverzicht($jaar=null, $maand=null,$dag=null){
+      public function dagOverzicht($jaar=null, $maand=null,$dag = null){
         if ( ! file_exists('application/views/pages/dagOverzicht.php')) {show_404();}
 
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
@@ -209,7 +209,7 @@ class Kalender extends CI_Controller {
         if ($jaar==null) {$jaar = date('Y');}  
         //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige maand
         if ($maand==null) {$maand = date('m');}
-        //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige maand
+        //als deze parameter niet wordt meegegeven in de url krijgt deze de waarde van de huidige dag
         if($dag ==null){$dag = date('d');}
 
         //library voor het tonen van hoofdmenu
@@ -226,10 +226,10 @@ class Kalender extends CI_Controller {
         $data['menu'] = $this->menu_library->ToonMenu();
 
         //kalender: bevat de kalender
-        $arrAfspraken = $this->Kalender_Model->Afspraken($dag,$maand,$jaar);
-       //$arrAfspraken = $this->Kalender_Model->Afspraken(29,11,2013);
+        $arrAfspraken = $this->Kalender_Model->Afspraken($jaar,$maand,$dag);
 
-        $data['kalender'] = $this->dag_library->GenerateView($dag,$maand,$jaar,$arrAfspraken);
+        $data['kalender'] = $this->dag_library->GenerateView($jaar,$maand,$dag,$arrAfspraken);
+        //$data['kalender']= $arrAfspraken["startTijd"];
         if($blnPermission){
             //header laden
             $this->load->view('templates/header', $data);
@@ -242,7 +242,6 @@ class Kalender extends CI_Controller {
             header('Location: '.site_url().'/login');
         }
     }
-
     public function logout()
     {
         $this->session->unset_userdata('logged_in');
