@@ -5,35 +5,13 @@
  * and open the template in the editor.
  */
 class Werkbon extends CI_Controller{
-    public function index(){
-        $arrGegevens = array(
-            'naam' => 'Vissers',
-            'voornaam' => 'Kevin',
-            'straat' => 'Weefbergstraat',
-            'nummer' => '23',
-            'postcode' => '3271',
-            'gemeente' => 'Averbode',
-            'telefoon' => '/',
-            'gsm' => '/',
-            'email' => 'kevin.vissers@telenet.be',
-            'datum' => '7/12/2013',
-            'startTijd' => '10:00',
-            'eindTijd' => '12:00',
-            'omschrijving' => 'Onderhoud verwarming',
-            'uitvoerder' => 'bart.bollen@student.khlim.be'
-        );
-        $arrMaterialen = array(
-            array(
-                'naam' => 'buis',
-                'waarde' => '5',
-                'eenheid' => 'meter'
-            ),
-            array(
-                'naam' => 'lijm',
-                'waarde' => '20',
-                'eenheid' => 'ml'
-            )
-        );
+    public function index($intAfspraakid){
+        $arrGegevens = array();
+        $arrMaterialen = array();
+        
+        $this->load->model('werkbon_model');
+        $arrGegevens = $this->werkbon_model->SelectAll($intAfspraakid);
+        $arrMaterialen = $this->werkbon_model->geneerMateriaallijst($intAfspraakid);
         
         $strHtml = '<html>
             <head>
@@ -114,6 +92,10 @@ class Werkbon extends CI_Controller{
 
         $this->mpdf->WriteHTML($strHtml);
         $this->mpdf->Output();
+    }
+    public function test(){
+        $this->load->model('werkbon_model');
+        $this->werkbon_model->SelectAll(6);
     }
 }
 ?>
