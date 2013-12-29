@@ -68,10 +68,9 @@ class Menu_Library {
                                 <li><label>Kalenders</label></li>
                                 <li><a href="'.site_url().'/kalender/maandOverzicht">Maandoverzicht</a></li>
                                 <!--<li><a href="'.site_url().'/kalender/weekOverzicht">Weekoverzicht</a></li>-->
-                                <li><a href="'.site_url().'/kalender/dagOverzicht">dagoverzicht</a></li>
+                                <li><a href="'.site_url().'/kalender/dagOverzicht">Dagoverzicht</a></li>
                               </ul>
                             </li>
-                            <!--<li><a href="">Extra</a></li>-->
                         </ul>';
         }
         if($this->userRole == 3){
