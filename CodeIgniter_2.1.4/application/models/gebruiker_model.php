@@ -94,9 +94,17 @@ class Gebruiker_model extends CI_Model {
             }
             $this->db->update('aanmeldgegevens', $data); 
             if($this->db->affected_rows() > 0){
-                return 'Wachtwoord succesvol gewijzigd.';
+                return '<br><br>
+                <div data-alert class="alert-box success radius">
+                        Wachtwoord succesvol gewijzigd!
+                        <a href="#" class="close">&times;</a>
+                    </div>';
             }else{
-                return "Wachtwoord wijzigen mislukt!";
+                return '<br><br>
+                <div data-alert class="alert-box alert radius">
+                        Wachtwoord wijzigen mislukt!
+                        <a href="#" class="close">&times;</a>
+                    </div>';
             }
         }catch(PDOException $ex){
             return $ex->getMessage();

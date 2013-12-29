@@ -103,7 +103,11 @@ class Gebruiker extends CI_Controller{
                     'gebruikersID' => $_POST['userid']
                 );
                 $this->Gebruiker_model->Bewerken($arrGegevens);
-                $data['klantenTabel'] = "<p>Gebruiker succesvol geupdate.</p>";
+                $data['klantenTabel'] = '<br><br>
+                <div data-alert class="alert-box success radius">
+                        Gebruiker werd succesvol bewerkt!
+                        <a href="#" class="close">&times;</a>
+                    </div>';
             }
             
             $data['afspraakFormulier'] = $this->Gebruiker_model->AlleGebruikersTonen();
