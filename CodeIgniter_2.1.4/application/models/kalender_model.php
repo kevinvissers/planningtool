@@ -95,16 +95,15 @@ class Kalender_model extends CI_Model{
             return "error: <br />".$exc->getMessage();
         }
     }
-        public function Afspraken($jaar,$maand,$dag){
-        
+    public function Afspraken($jaar,$maand,$dag){    
         $sqlDatum = $jaar."-".$maand."-".$dag;
 
-        $sql= 'SELECT afspraken.id, afspraken.startTijd, afspraken.eindTijd, klanten.voornaam, klanten.achternaam, klanten.straat  
+        $sql= 'SELECT afspraken.id, afspraken.startTijd, afspraken.eindTijd, klanten.voornaam, klanten.achternaam, klanten.straat, klanten.huisnummer, klanten.klantID   
                 FROM afspraken INNER JOIN klanten ON afspraken.klantID = klanten.klantID                                    
                 WHERE DATE( afspraken.startTijd ) = "'.$sqlDatum.'" '  ;
-            $query = $this->db->query($sql);
-
-            return $query;
+        $query = $this->db->query($sql);            
+        
+        return $query;
 
     }
     

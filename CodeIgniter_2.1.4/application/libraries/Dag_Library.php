@@ -87,17 +87,28 @@ class Dag_Library {
                 $strHTML.= $this->temp['heading_row_end'];
 
                 if($query->num_rows() > 0){
-                    foreach ($query->result_array() as $row){
+                    foreach ($query->result_array() as $row){                                                           
                         $strHTML.= str_replace('{id}', $row['id'], $this->temp['date_start']);
                     
-                        $strHTML.= str_replace('{content}', $row['startTijd']." ".$row['voornaam']." ".$row['achternaam'] , $this->temp['date_row_content']);
-                        $strHTML.= str_replace('{content}', $row['eindTijd']." ".$row['straat'], $this->temp['date_row_content']);
-
+                        $timestamp = strtotime($row['startTijd']);
+                        $startTijd = date("H:i", $timestamp);
+                        
+                        $timestamp = strtotime($row['eindTijd']);
+                        $eindTijd = date("H:i", $timestamp);
+                        /*
+                        $strHTML.= str_replace('{content}', '<div class="large-6 columns">'.$startTijd.'</div><div class="large-6 columns">'.$row['voornaam'].' '.$row['achternaam'].'</div>' , $this->temp['date_row_content']);
+                        $strHTML.= str_replace('{content}', '<div class="large-6 columns">'.$eindTijd.'</div><div class="large-6 columns">'.$row['straat'].'</div>', $this->temp['date_row_content']);
+                        $strHTML.= str_replace('{content}','<div class="large-12 columns"><hr></div>', $this->temp['date_row_content']);
+                        */
+                        
+                        $strHTML.= str_replace('{content}', '<td>'.$startTijd.' - '.$eindTijd.'</td><td>'.$row['voornaam'].' '.$row['achternaam'].'</td><td>'.$row['straat'].' '.$row['huisnummer'].'</td>' , $this->temp['date_row_content']);
+                        //$strHTML.= str_replace('{content}', '<td>'.$eindTijd.'</td><td>'.$row['straat'].'</td>', $this->temp['date_row_content']);  
+                        
                         $strHTML.= $this->temp['date_stop'];
                     }
                 }
                 else{
-                    $strHTML.= "geen afspraken gevonden";
+                    $strHTML.= '<td colspan="4" style="text-align:center">geen afspraken gevonden</td>';
                 }
                 
 
@@ -121,7 +132,20 @@ class Dag_Library {
                             'main_close'                => '</div>',
                         );
         }
-        
+        function default_template2(){
+            return  array (
+                            'main_open'                 => '<table class="dagoverzicht">',
+                            'heading_row_start'         => '<thead>',
+                            'heading_prev_cell'         => '<th class="links"><a href="{previous_url}" class="dagoverzicht">&lt;&lt;</a></th>',
+                            'heading_title_cell'        => '<th class="datum">{datum}</th>',
+                            'heading_next_cell'         => '<th class="rechts"><a href="{next_url}" class="dagoverzicht">&gt;&gt;</a></th>',
+                            'heading_row_end'           => '</thead>',
+                            'date_start'                => '<tr onclick="document.location = \''.$_SERVER['PHP_SELF'].'?id={id}\';" class="dagrij">',
+                            'date_row_content'          => '{content}',
+                            'date_stop'                 => '</tr>',
+                            'main_close'                => '</table>',
+                        );
+        }
         //TODO kijk na php functie om dit simpeler te maken !!!
         // adjust_date + dagenInMaand !!! 
         // ??? date('d-m-Y', strtotime("+1 day")) ???
@@ -178,7 +202,7 @@ class Dag_Library {
     }
         
      function parse_template(){
-        $this->temp = $this->default_template();
+        $this->temp = $this->default_template2();
         
         if ($this->template == '')
         {

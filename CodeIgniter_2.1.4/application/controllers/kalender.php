@@ -224,7 +224,8 @@ class Kalender extends CI_Controller {
         $this->load->model('Kalender_Model');
         //afspraken model
         $this->load->model('Afspraken_model');
-        $data['title'] = 'Dag overzicht';
+        $this->load->model('Materiaal_model');
+        $data['title'] = 'Dagoverzicht';
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
 
@@ -233,6 +234,15 @@ class Kalender extends CI_Controller {
 
         $data['kalender'] = $this->dag_library->GenerateView($jaar,$maand,$dag,$arrAfspraken);
         //$data['kalender']= $arrAfspraken["startTijd"];
+        
+        if(isset($_GET['id'])){
+            $intID = $_GET['id'];
+            $materiaalTabel = $this->Materiaal_model->TabelTonen($intID);
+            //gegevens ophalen voor eigenschappenDialog (inhoud, title, id)
+            $eigenschappenDialog = $this->Afspraken_model->EigenschappenTonen($intID,$materiaalTabel);
+            $data['eigenschappen'] = $eigenschappenDialog['inhoudModal'];
+        }
+        
         if($blnPermission){
             //header laden
             $this->load->view('templates/header', $data);
