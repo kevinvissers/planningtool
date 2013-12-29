@@ -129,7 +129,13 @@ class Menu_Library {
                                     &nbsp;&nbsp;
                                     Toevoegen
                                     </a>
-                                </li>                                
+                                </li>
+                                <li><a class="iconlink" href="'.site_url().'/afspraken/afsprakenLijst">
+                                    <i class="step fi-list-bullet size-21"></i>
+                                    &nbsp;&nbsp;
+                                    Afsprakenlijst
+                                    </a>
+                                </li>
                               </ul>
                             </li>
                             <!--<li><a href="">Extra</a></li>-->

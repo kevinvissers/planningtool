@@ -86,6 +86,35 @@ class Afspraken extends CI_Controller {
         }
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
+        $data['script'] = '$(function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });';
         if($blnPermission){
             //header laden
             $this->load->view('templates/header', $data);
@@ -93,6 +122,7 @@ class Afspraken extends CI_Controller {
             $this->load->view('pages/row1row2', $data);
             //footer laden
             $data['device'] = $this->helper_library->CreateFooter();
+           
             $this->load->view('templates/footer', $data);
         }else{
             //redirect('login', 'refresh');
@@ -162,6 +192,66 @@ class Afspraken extends CI_Controller {
             $this->load->view('templates/header', $data);
             //inhoud laden
             $this->load->view('pages/row1row2', $data);
+            //footer laden
+            $data['device'] = $this->helper_library->CreateFooter();
+            $this->load->view('templates/footer', $data);
+        }else{
+            //redirect('login', 'refresh');
+            header('Location: '.site_url().'/login');
+        }
+    }
+    
+    public function AfsprakenLijst()
+    {
+        //Controleren of de gebruikte view wel bestaat
+        if ( ! file_exists('application/views/pages/row1row2.php'))
+	{
+            show_404();
+	}
+        
+        $this->load->library('Helper_Library');
+        $data = $this->helper_library->Init();
+        $blnPermission = $this->session->userdata('logged_in') ? true : false;
+        $session_data = $this->session->userdata('logged_in');
+        
+        
+        $this->load->model('Gebruiker_model');
+
+        $menuConfig = array(
+            'currentController' => 'afspraken',
+            'loggedIn' => $blnPermission,
+            'user' => $session_data['username'],
+            'userRole' => $session_data['userrole']
+        );
+        
+        //library voor het tonen van hoofdmenu
+        $this->load->library('Menu_Library', $menuConfig);
+        //afspraken model
+        $this->load->model('Afspraken_model');
+        $this->load->model('Klanten_model');   
+        
+        
+        //title: titel van de webpagina
+        $data['title'] = 'Afsprakenlijst';
+        //script: javascript/jquery
+        if(!isset($data['script']))
+        {
+            $data['script'] = '';
+        }
+        //menu: bevat het hoofdmenu
+        $data['menu'] = $this->menu_library->ToonMenu();
+        if($blnPermission){
+            $data['inhoud'] = $this->Afspraken_model->FrmSelecteerDatum();
+            if(isset($_POST['datePickerSubmit']))
+            {
+                $timestamp = strtotime($_POST['datum']);
+                $datum = date("Y-m-d", $timestamp);
+                $data['inhoud'] .= $this->Afspraken_model->TblAfspraken($datum);
+            }
+            //header laden
+            $this->load->view('templates/header', $data);
+            //inhoud laden
+            $this->load->view('pages/klantenBestand', $data);
             //footer laden
             $data['device'] = $this->helper_library->CreateFooter();
             $this->load->view('templates/footer', $data);

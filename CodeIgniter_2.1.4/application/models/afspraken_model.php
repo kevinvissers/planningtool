@@ -251,7 +251,8 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtKlantnaam">Klantnaam</label>
-                    <input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly required>
+                    <input type="text" id="tags">
+                    <!--<input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly required>-->
                     <input type="hidden" name="klantID" id="hiddenKlantID" value="'.$intKlantID.'">
                 </div>
             </div>
@@ -498,6 +499,76 @@ class Afspraken_model extends CI_Model{
             
             </fieldset>
             </form>';
+        
+        return $strHtml;
+    }
+    
+    public function FrmSelecteerDatum()
+    {
+        $strHtml = '<form method="post" name="frmAfspraakToevoegen" class="custom">
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <label for="datepicker">Van welke dag wilt u de afspraken zien?</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-4 columns">
+                                <input type="text" id="datepicker" name="datum" placeholder="Datum" required>
+                            </div>
+                            <div class="large-8 columns">
+                                <button type="submit" class="small button" name="datePickerSubmit"><i class="fi-arrow-right size-21"></i></button>
+                            </div>
+                        </div>
+                    </form>';
+        
+        return $strHtml;
+    }
+    
+    public function TblAfspraken($datum)
+    {
+        $this->db->select('klanten.achternaam, klanten.voornaam,klanten.straat, klanten.huisnummer,gemeente.gemeente,afspraken.startTijd, afspraken.eindTijd, afspraken.omschrijving,afspraken.id');
+        $this->db->from('afspraken');
+        $this->db->like('startTijd',$datum, 'after');
+        $this->db->join('klanten','afspraken.klantID = klanten.klantID');
+        $this->db->join('gemeente','klanten.idgemeente = gemeente.Idgemeente');
+        //$this->db->where();
+        
+        $objAfspraak = $this->db->get();
+        $arrAfspraken = $objAfspraak->result_array();
+               
+        $strHtml = '<table>
+                        <thead>
+                            <tr>
+                                <th>Achternaam</th>
+                                <th>Voornaam</th>
+                                <th>Straat</th>
+                                <th>Huisnummer</th>
+                                <th>Gemeente</th>
+                                <th>Starttijd</th>
+                                <th>Eindtijd</th>
+                                <th>Omschrijving</th>
+                                <th>Bewerken</th>
+                            </tr>
+                        </thead>
+                        <tbody>';        
+        
+        foreach ($arrAfspraken as $key => $value)
+        {
+            $strHtml .='<tr>';
+            foreach($value as $key2 => $value2)
+            {
+                if($key2 != 'id')
+                {
+                    $strHtml.='<td>
+                                '.$value2.'
+                            </td>';
+                }                
+            }                 
+            
+            $strHtml .='<td><a href="'.site_url().'/afspraken/bewerken?id='.$value['id'].'">Bewerken</a></td></tr>';
+        }
+        
+        $strHtml .='</tbody></table>';
         
         return $strHtml;
     }

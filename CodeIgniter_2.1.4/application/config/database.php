@@ -51,6 +51,7 @@ $active_record = TRUE;
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
+//$db['default']['database'] = 'planningtool';
 $db['default']['database'] = 'planner';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
