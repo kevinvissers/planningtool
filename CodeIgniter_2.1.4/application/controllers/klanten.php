@@ -112,7 +112,8 @@ class Klanten extends CI_Controller {
             $data['title'] = 'Klant bewerken';
             
             if(isset($_POST['Bewerken'])){
-                $data['klantenTabel'] = $this->Klanten_model->KlantTonen($_POST['klant_id']);
+                $intID = $_POST['klant_id'];
+                $data['klantenTabel'] = $this->Klanten_model->KlantTonen($intID);
             }
             if(isset($_POST['updateKlant'])){
                 $arrGegevens = array(

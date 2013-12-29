@@ -418,7 +418,7 @@ class Klanten_model extends CI_Model {
                             <div class="large-4 columns">
                                 <!--<label for="ddSorteer">Sorteren op : </label>-->
                                 <select class="large" name="ddSorteer" id="ddSorteer">
-                                    <option>Sorteren op...</option>
+                                    <option value="empty">Sorteren op...</option>
                                     <option value="achternaam">Achternaam</option>
                                     <option value="voornaam">Voornaam</option>
                                 </select>
@@ -436,7 +436,15 @@ class Klanten_model extends CI_Model {
     {
         $this->db->select('*'); 
         $this->db->from('klanten');
-        $this->db->order_by($strOrderByValue,"asc");
+        
+        if($strOrderByValue == 'empty')
+        {
+            $this->db->order_by('achternaam',"asc");
+        }
+        else
+        {
+            $this->db->order_by($strOrderByValue,"asc");
+        }
         
         $query = $this->db->get();
         
@@ -452,7 +460,7 @@ class Klanten_model extends CI_Model {
                             <th>Postcode</th>
                             <th>Telefoon</th>
                             <th>Gsm</th>
-                            <th>E-mail</th>                            
+                            <th>E-mail</th>
                           </tr>
                         </thead>
                         <tbody>';
