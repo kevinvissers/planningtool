@@ -78,10 +78,7 @@ class Afspraken_model extends CI_Model{
         {
             $this->db->where('ID', $intID);
             $this->db->update('afspraken', $data); 
-            return '<br><div data-alert class="alert-box success radius">
-                        De afspraak werd succesvol bewerkt !
-                        <a href="#" class="close">&times;</a>
-                    </div>';
+            return "data succesvol bijgewerkt.";
         }  catch (PDOException $exc){
             return $exc->getMessage();
         }

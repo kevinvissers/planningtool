@@ -132,7 +132,23 @@ class Afspraken extends CI_Controller {
         $this->load->model('Afspraken_model');
         $this->load->model('Klanten_model');   
         
-        
+        if(isset($_POST['bewerkAfspraakSubmit']))
+        {
+            $arrGegevens = $this->Gebruiker_model->GetGebruikerGegevens($menuConfig['user']);
+            $startDate = date_create($_POST['datum'].$_POST['starttijd']);
+            $eindDate = date_create($_POST['datum'].$_POST['eindtijd']);
+            $arrAfspraak = array(
+                'klantID' => $_POST['klantID'],
+                'startTijd' => date_format($startDate, 'Y-m-d H:i:s'),
+                'eindTijd' => date_format($eindDate, 'Y-m-d H:i:s'),
+                'omschrijving' => $_POST['opmerking'],
+                'actief' => $_POST['switchActief'],
+                'uitgevoerd' => '0',
+                'gebruikersID' => $arrGegevens['gebruikersID'],
+                'iduitvoerder' => $_POST['ddSelectUitvoerder']
+            );
+            $resultaat = $this->Afspraken_model->Bewerken($_GET["id"], $arrAfspraak);
+        }
         //title: titel van de webpagina
         $data['title'] = 'Afspraak bewerken';
         //script: javascript/jquery
@@ -144,25 +160,6 @@ class Afspraken extends CI_Controller {
         $data['menu'] = $this->menu_library->ToonMenu();
         if($blnPermission){
             $data['afspraakFormulier'] = $this->Afspraken_model->BewerkFormulier($_GET["id"]);
-            
-            if(isset($_POST['bewerkAfspraakSubmit']))
-            {
-                $arrGegevens = $this->Gebruiker_model->GetGebruikerGegevens($menuConfig['user']);
-                $startDate = date_create($_POST['datum'].$_POST['starttijd']);
-                $eindDate = date_create($_POST['datum'].$_POST['eindtijd']);
-                $arrAfspraak = array(
-                    'klantID' => $_POST['klantID'],
-                    'startTijd' => date_format($startDate, 'Y-m-d H:i:s'),
-                    'eindTijd' => date_format($eindDate, 'Y-m-d H:i:s'),
-                    'omschrijving' => $_POST['opmerking'],
-                    'actief' => $_POST['switchActief'],
-                    'uitgevoerd' => '0',
-                    'gebruikersID' => $arrGegevens['gebruikersID'],
-                    'iduitvoerder' => $_POST['ddSelectUitvoerder']
-                );
-                $resultaat = $this->Afspraken_model->Bewerken($_GET["id"], $arrAfspraak);
-                $data['klantenTabel'] = $resultaat;
-            }
             //header laden
             $this->load->view('templates/header', $data);
             //inhoud laden
