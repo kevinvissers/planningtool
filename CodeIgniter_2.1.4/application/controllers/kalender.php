@@ -50,6 +50,7 @@ class Kalender extends CI_Controller {
         $this->load->model('Kalender_Model');
         //afspraken model
         $this->load->model('Afspraken_model');
+        $this->load->model('Materiaal_model');
         
         //configuratie voor kalender
         $conf = array(
@@ -64,8 +65,10 @@ class Kalender extends CI_Controller {
         $this->load->library('calendar', $conf);
         
         if(((isset($_GET['dag']))&&(isset($_GET['id']))&&(isset($_GET['modal'])))){
+            $intID = $_GET['modal'];
+            $materiaalTabel = $this->Materiaal_model->TabelTonen($intID);
             //gegevens ophalen voor eigenschappenDialog (inhoud, title, id)
-            $eigenschappenDialog = $this->Afspraken_model->EigenschappenTonen($_GET['modal']);
+            $eigenschappenDialog = $this->Afspraken_model->EigenschappenTonen($intID,$materiaalTabel);
             $data['eigenschappen'] = $eigenschappenDialog['inhoudModal'];
         }
         //kijken of er een dag wordt geselecteerd

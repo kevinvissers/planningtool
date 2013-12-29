@@ -5,6 +5,7 @@
  *
  * @package             planningtool
  * @author              Kevin Vissers <kevin.vissers@student.khlim.be>
+ * @author              Bart Bollen <bart.bollen@student.khlim.be>
  * @version		1.0
  * @date		01/11/2013
  * @copyright (c)       2013, KHLIM-ict
@@ -54,6 +55,24 @@ class Materiaal_model extends CI_Model {
                     <a href="'.site_url().'/materialen/toevoegen/'.$intAfspraakID.'">Toevoegen</a>
                 </div>
             </div>';
+        return $strHTML;
+    }
+    
+    public function TabelTonen($intAfspraakID)
+    {
+        $objResult = $this->_Select($intAfspraakID);
+        $strHTML = '<table>
+                    <thead>
+                        <th>Materiaal</th>
+                        <th>Hoeveelheid</th>
+                    </thead>';
+        foreach ($objResult->result() as $row) {
+            $strHTML .= '<tr>';
+            $strHTML .= '<td>'.$row->materiaalNaam.'</td>
+                        <td>'.$row->aantal.' '.$row->eenheid.'</td>';
+            $strHTML .= '</tr>';
+        }
+        $strHTML .= '</table>';
         return $strHTML;
     }
     public function ToevoegFormulier($intAfspraakID){

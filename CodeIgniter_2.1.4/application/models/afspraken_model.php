@@ -123,7 +123,7 @@ class Afspraken_model extends CI_Model{
         }
     }
     
-    public function EigenschappenTonen($intID){
+    public function EigenschappenTonen($intID, $materiaalTabel){
         
         try{
             $arrGegevens = $this->allegegevens($intID);
@@ -148,86 +148,91 @@ class Afspraken_model extends CI_Model{
             $arrResultaat['inhoudModal'] = '<form method="POST" >
                 <input type="hidden" name="id" value="'.$intID.'" />
 	<div class="row">	
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 			<p class="labelfontbold">Klantgegevens:</p>
 		</div>
-                <div class="large-8 columns">
+                <div class="large-7 columns">
 			<p class="labelfont">'.$arrGegevens['voornaam'].' '.$arrGegevens['achternaam'].'</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.$arrGegevens['straat'].' '.$arrGegevens['huisnummer'].'</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.$arrGegevens['postcode'].' '.$arrGegevens['gemeente'].'</p>
 		</div>
 	</div>
         	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">T: '.$arrGegevens['telefoon'].' - GSM: '.$arrGegevens['gsm'].'</p>
 		</div>
 	</div>
         <div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 			<p class="labelfontbold">Datum:</p>
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.date('d-m-Y', strtotime($arrGegevens['datum'])).'</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 			<p class="labelfontbold">Tijd:</p>
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.$arrGegevens['startTijd'].' - '.$arrGegevens['eindTijd'].'</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 			<p class="labelfontbold">Omschrijving:</p>
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.$arrGegevens['omschrijving'].'</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="large-4 columns">
+		<div class="large-5 columns">
 			<p class="labelfontbold">Toegevoegd door:</p>
 		</div>
-		<div class="large-8 columns">
+		<div class="large-7 columns">
 			<p class="labelfont">'.$strGebruiker[0]['gebruikersNaam'].'</p>
 		</div>
 	</div>
         <!--<div class="row">
-            <div class="large-4 columns">
+            <div class="large-5 columns">
                 <p class="labelfontbold">Uitvoerder:</p>
             </div>
-            <div class="large-8 columns">
+            <div class="large-7 columns">
                 <p></p>
             </div>-->
+        <br>
+        <div class="row">
+            <div class="large-5 columns">
+                    <p class="labelfontbold">Materiaallijst:</p>
+            </div>
+            <div class="large-7 columns">
+            </div>
+	</div>
+        <div class="row">
+            <div class="large-12 columns">
+                '.$materiaalTabel.'
+            </div>
+	</div>
 	<div class="row">
-		<div class="large-3 columns">
-			<a class="small button" href="'.site_url().'/afspraken/bewerken?id='.$intID.'">Wijzigen</a>
-		</div>
-		<div class="large-3 columns">
-			<h6><input type="submit" class="small button" name="verwijderen" value="Verwijderen" id="verwijderen" /></h6>
-		</div>
-		<div class="large-3 columns">
-			<h6><a href="'.site_url().'/materialen/tonen/'.$intID.'">Materiaallijst...</a></h6>
-		</div>
-                <div class="large-3 columns">
-			<h6><a href="'.site_url().'/werkbon/index/'.$intID.'" target="_blank">Werkbon</a></h6>
-		</div>
+            <div class="large-12 columns">
+                <a href="'.site_url().'/afspraken/bewerken?id='.$intID.'" class="small button">Bewerken</a>
+                <a href="'.site_url().'/werkbon/index/'.$intID.'" target="_blank" class="small button">Werkbon</a>
+            </div>
 	</div>
 </form>';
         
@@ -493,6 +498,7 @@ class Afspraken_model extends CI_Model{
 
             <div class="row">
                 <div class="large-12 columns">
+                    <a href="'.site_url().'/materialen/tonen/'.$intAfspraakID.'" class="small button">Bewerken</a>
                     <button type="submit" class="small button" name="bewerkAfspraakSubmit">Opslaan</button>
                 </div>
             </div>
