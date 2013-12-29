@@ -86,6 +86,18 @@ div.red {
     color:red;
     text-decoration: underline;
 }
+.dagrij:hover{
+    background-color: #2ba6cb;
+}
+.datum{
+    text-align: center;
+}
+.links{
+    text-align: left;
+}
+.rechts{
+    text-align: right;
+}
 /* weekKalender */
 /*.kalender_week_inhoud{position: absolute;background-color: white; margin-top: 50px; min-width: 500px; margin-left:20%; margin-right:20%; }
 .week_hoofding{width: 200px;}
