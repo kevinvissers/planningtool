@@ -26,7 +26,6 @@ class Afspraken extends CI_Controller {
         $blnPermission = $this->session->userdata('logged_in') ? true : false;
         $session_data = $this->session->userdata('logged_in');
         
-        
         $this->load->model('Gebruiker_model');
 
         $menuConfig = array(
@@ -46,11 +45,22 @@ class Afspraken extends CI_Controller {
         
         if(isset($_POST['nieuweAfspraakSubmit']))
         {
+            //id achterhalen voor aangemelde gebruiker
             $arrGegevens = $this->Gebruiker_model->GetGebruikerGegevens($menuConfig['user']);
+            
+            //datum object creëren
             $startDate = date_create($_POST['datum'].$_POST['starttijd']);
             $eindDate = date_create($_POST['datum'].$_POST['eindtijd']);
+            
+            // klantid achterhalen op basis van naam en voornaam
+            $arrNaam = explode(" ", $_POST['tags']);
+            $query = $this->db->get_where('klanten', array('voornaam' => $arrNaam[0], 'achternaam' => $arrNaam[1]));
+            foreach($query->result() as $row){
+                $intKlantid = $row->klantID;
+            }
+            
             $arrNieuweAfspraak = array(
-                'klantID' => $_POST['klantID'],
+                'klantID' => $intKlantid,
                 'startTijd' => date_format($startDate, 'Y-m-d H:i:s'),
                 'eindTijd' => date_format($eindDate, 'Y-m-d H:i:s'),
                 'omschrijving' => $_POST['opmerking'],
@@ -62,15 +72,9 @@ class Afspraken extends CI_Controller {
             $resultaat = $this->Afspraken_model->Toevoegen($arrNieuweAfspraak);
         }
         
-        
         $data['afspraakFormulier'] = $this->Afspraken_model->ToevoegenFormulierTonen('', '', '');
-        $data['klantenTabel'] = $this->Klanten_model->SelectNaamForm();
+        //$data['klantenTabel'] = $this->Klanten_model->SelectNaamForm();
         $data['messages'] = $resultaat;
-        
-        if(isset($_POST['searchKlant']))
-            {
-                $data['klantenTabel'] .= $this->Klanten_model->KlantenFilterTonen($_POST['txtSelectNaam'], $_POST['ddSelectItem']);
-            }
         
         if(isset($_POST['Bewerken']))
             {                
@@ -80,41 +84,10 @@ class Afspraken extends CI_Controller {
         //title: titel van de webpagina
         $data['title'] = 'Afspraak toevoegen';
         //script: javascript/jquery
-        if(!isset($data['script']))
-        {
-            $data['script'] = '';
-        }
+        $data['script'] = $this->Klanten_model->naamlijstGenereren();
         //menu: bevat het hoofdmenu
         $data['menu'] = $this->menu_library->ToonMenu();
-        $data['script'] = '$(function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-  });';
+   
         if($blnPermission){
             //header laden
             $this->load->view('templates/header', $data);
@@ -125,7 +98,6 @@ class Afspraken extends CI_Controller {
            
             $this->load->view('templates/footer', $data);
         }else{
-            //redirect('login', 'refresh');
             header('Location: '.site_url().'/login');
         }
         

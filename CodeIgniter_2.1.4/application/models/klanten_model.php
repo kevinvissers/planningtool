@@ -514,6 +514,24 @@ class Klanten_model extends CI_Model {
         
         return $strHTML;
     }
+    
+    public function naamlijstGenereren(){
+        $strJavascript = '$(function() {
+                             var availableTags = [';                    
+        $this->db->select('*'); 
+        $this->db->from('klanten');
+        $objResult = $this->db->get();
+        
+        foreach ($objResult->result() as $row) {
+            $strJavascript .= '"'.$row->voornaam.' '.$row->achternaam.'",';         
+        }
+        $strJavascript .= '""];
+                            $( "#tags" ).autocomplete({
+                                source: availableTags
+                                });
+                            });';
+        return $strJavascript;
+    }
 }
 
 ?>

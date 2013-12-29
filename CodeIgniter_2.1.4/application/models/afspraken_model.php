@@ -49,7 +49,11 @@ class Afspraken_model extends CI_Model{
                         <a href="#" class="close">&times;</a>
                     </div>';
         }catch (PDOException $exc) {
-            return $exc->getMessage();
+            return '<br><br>
+                <div data-alert class="alert-box alert radius">
+                        Toevoegen mislukt! Meer info over het probleem: <br>'.$exc->getMessage().'
+                        <a href="#" class="close">&times;</a>
+                    </div>';
         }
     }
     
@@ -256,7 +260,7 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="txtKlantnaam">Klantnaam</label>
-                    <input type="text" id="tags">
+                    <input type="text" name="tags" id="tags" placeholder="Klantnaam" required>
                     <!--<input type="text" placeholder="Klantnaam" id="txtKlantnaam" value="'.$strKlantAchternaam.'&nbsp;'.$strKlntVoornaam.'" readonly required>-->
                     <input type="hidden" name="klantID" id="hiddenKlantID" value="'.$intKlantID.'">
                 </div>
@@ -282,8 +286,8 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="ddSelectUitvoerder">Uitvoerder :</label>
-                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">
-                        <option>Kies een uitvoerder</option>';
+                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder" required>
+                        <option value="">Kies een uitvoerder</option>';
             foreach ($query->result() as $row){ 
                 $arrResultaat .= '<option value="'.$row->gebruikersID.'">'.$row->gebruikersNaam.'</option>';     
             }
@@ -439,7 +443,7 @@ class Afspraken_model extends CI_Model{
             <div class="row">
                 <div class="large-12 columns">
                     <label for="ddSelectUitvoerder">Uitvoerder :</label>
-                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder">';
+                    <select class="large" name="ddSelectUitvoerder" id="ddSelectUitvoerder" required>';
             foreach ($currentUser->result() as $rij){ 
                 $strHtml .='
                 <option value="'.$rij->gebruikersID.'">'.$rij->gebruikersNaam.'</option>';
@@ -498,7 +502,7 @@ class Afspraken_model extends CI_Model{
 
             <div class="row">
                 <div class="large-12 columns">
-                    <a href="'.site_url().'/materialen/tonen/'.$intAfspraakID.'" class="small button">Bewerken</a>
+                    <a href="'.site_url().'/materialen/tonen/'.$intAfspraakID.'" class="small button">Materiaallijst</a>
                     <button type="submit" class="small button" name="bewerkAfspraakSubmit">Opslaan</button>
                 </div>
             </div>
@@ -514,7 +518,7 @@ class Afspraken_model extends CI_Model{
         $strHtml = '<form method="post" name="frmAfspraakToevoegen" class="custom">
                         <div class="row">
                             <div class="large-12 columns">
-                                <label for="datepicker">Van welke dag wilt u de afspraken zien?</label>
+                                <label for="datepicker">Van welke dag wilt u de afspraken bekijken?</label>
                             </div>
                         </div>
                         <div class="row">
