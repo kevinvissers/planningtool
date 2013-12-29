@@ -90,7 +90,11 @@ class Gebruiker extends CI_Controller{
             }
             if(isset($_POST['Verwijderen'])){
                 $this->Gebruiker_model->Verwijderen($_POST['userid']);
-                $data['klantenTabel'] = "<p>Gebruiker succesvol verwijderd.</p>";
+                $data['klantenTabel'] = '<br><br>
+                <div data-alert class="alert-box success radius">
+                        Gebruiker werd succesvol verwijderd!
+                        <a href="#" class="close">&times;</a>
+                    </div>';
             }
             if(isset($_POST['update'])){
                 $arrGegevens = array(

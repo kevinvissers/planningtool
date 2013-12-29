@@ -66,9 +66,17 @@ class Gebruiker_model extends CI_Model {
             //return print_r($exists->result_array());
             if($exists->result_array() ==null){
                 $query = $this->db->query("INSERT INTO `aanmeldgegevens`(`gebruikersNaam`, `wachtwoord`, `idfunctie`) VALUES ('".$arrNieuweGebruikersGegevens['gebruikersNaam']."','".$arrNieuweGebruikersGegevens['wachtwoord']."',".$arrNieuweGebruikersGegevens['idfunctie'].")");
-                return "Gebruiker succesvol toegevoegd.";               
+                return '<br><br>
+                <div data-alert class="alert-box success radius">
+                        Gebruiker succesvol toegevoegd.
+                        <a href="#" class="close">&times;</a>
+                    </div>';               
             }else{
-                return "Gebruiker bestaat al!";
+                return '<br><br>
+                <div data-alert class="alert-box alert radius">
+                        Toevoegen mislukt, email-adres reeds in gebruik!
+                        <a href="#" class="close">&times;</a>
+                    </div>';
             }
         }catch(PDOException $ex){
             return $ex->getMessage();
