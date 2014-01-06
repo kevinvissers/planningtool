@@ -38,7 +38,7 @@ class Login extends CI_Controller {
         
         if($this->session->userdata('logged_in')){
             //redirect('kalender/maandOverzicht', 'refresh');
-            header('Location: '.site_url().'/kalender/maandOverzicht');
+            header('Location: '.site_url().'/kalender/dagOverzicht');
         }else{
             $this->load->view('templates/header', $data);
             $this->load->view('templates/login', $data);

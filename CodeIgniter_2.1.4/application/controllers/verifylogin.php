@@ -51,7 +51,7 @@ class VerifyLogin extends CI_Controller {
        else{
             //Go to private area
             //redirect('kalender/maandOverzicht', 'refresh');
-            header('Location: '.site_url().'/kalender/maandOverzicht');
+            header('Location: '.site_url().'/kalender/dagOverzicht');
        }
     }
 
